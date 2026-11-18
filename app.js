@@ -141,12 +141,6 @@ const insights = [
   [`UK AISI produced ${ukCount} of ${M.totalFindings} findings (${pct(ukCount, M.totalFindings)}%) `,
    `— ${pct(ukCount, govCount)}% of the public output of the entire government-AISI network (${govCount} findings).`],
 ];
-if (M.sweep) {
-  insights.push([
-    `This dataset is a screened subset of a still-growing census, not a sample: `,
-    `${M.sweep.enumerated.toLocaleString()} publications have been enumerated across ${M.sweep.venues} evaluator organisations, of which ${M.sweep.screened.toLocaleString()} have been screened for evaluation-relevance to date. Of those ${M.sweep.screened.toLocaleString()} already-screened rows, ${M.sweep.pendingFetch.toLocaleString()} are still pending full-text confirmation before an inclusion decision is finalised.`,
-  ]);
-}
 document.getElementById("insightList").append(
   ...insights.map(([strong, rest]) => h("div", { class: "insight" }, h("strong", null, strong), rest))
 );
@@ -262,7 +256,7 @@ if (M.sweep) {
   document.getElementById("tiles").append(h("div", { class: "tile" },
     h("div", { class: "label" }, "Publications screened"),
     h("div", { class: "value" }, M.sweep.screened.toLocaleString()),
-    h("div", { class: "sub" }, `of ${M.sweep.enumerated.toLocaleString()} found, ${M.sweep.venues} evaluator orgs`)));
+    h("div", { class: "sub" }, "screened for evaluation-relevance")));
 }
 
 /* ---- reports per year, by institution group ---- */
@@ -872,7 +866,6 @@ function renderSankey() {
     if (n.sweep) {
       rows = [
         { color: cvar(n.cv), value: n.value.toLocaleString(), label: "publications screened" },
-        { value: M.sweep.enumerated.toLocaleString(), label: `found in the census (${M.sweep.venues} orgs, nothing un-listed)` },
         { value: M.sweep.pendingFetch.toLocaleString(), label: "of the screened rows, still pending full-text confirmation" },
         { value: pct(F.length, n.value) + "%", label: "made it into this dataset" },
       ];
