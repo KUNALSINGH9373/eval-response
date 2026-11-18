@@ -2,7 +2,7 @@
 
 Analyzing publicly available evidence of company responses to evaluations
 
-**Live site → https://kunalsingh9373.github.io/evaluating-the-evaluators/**
+**Live site → https://kunalssingh.com/eval-response/**
 
 ![The accountability pipeline](charts/00_title_hero.jpg)
 
