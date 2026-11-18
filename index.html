@@ -1580,10 +1580,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1794991430"></script>
-<script src="app.js?v=1794991430"></script>
+<script src="data.js?v=1794994054"></script>
+<script src="app.js?v=1794994054"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1794991430"></script>
+<script type="module" src="tags3d.js?v=1794994054"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1611,7 +1611,9 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     document.querySelectorAll('.tabs [data-tab]').forEach(function (b) {
       b.setAttribute('aria-selected', String(b.dataset.tab === name));
     });
-    if (location.hash.slice(1) !== name) history.replaceState(null, '', '#' + name);
+    /* the landing view keeps a clean address; only the other tabs carry a #name */
+    var want = name === 'results' ? '' : '#' + name;
+    if (location.hash !== want) history.replaceState(null, '', location.pathname + location.search + want);
     window.scrollTo(0, 0);
     paint('p:' + name);
   }
