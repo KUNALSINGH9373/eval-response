@@ -516,25 +516,31 @@ header.site .wrap { height:56px; gap:20px; padding-inline:20px; border-radius:va
 .meta { margin-top:22px; gap:6px 22px; font-size:.86rem; color:var(--ink-3); }
 .meta b { color:var(--ink); font-weight:700; }
 
-.statcard { background:var(--paper); border:1px solid var(--rule); border-radius:18px;
-  box-shadow:var(--shadow-lg); padding:26px 26px 22px; }
-.statcard .kicker { font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--ink-3); }
-.statcard .headline { display:block; margin:6px 0 0; }
-.statcard .headline .big { font-size:clamp(3.6rem,7vw,5rem); font-weight:700; letter-spacing:-0.05em;
-  color:var(--gap); line-height:1; }
-.statcard .headline .say { max-width:none; margin-top:10px; font-size:.98rem; color:var(--ink-2); }
-.obar { display:flex; height:14px; border-radius:999px; overflow:hidden; margin-top:20px;
-  background:var(--paper-2); gap:2px; }
-.obar span { display:block; height:100%; min-width:3px; }
-.okey { list-style:none; margin-top:14px; display:grid; gap:7px; }
-.okey li { display:grid; grid-template-columns:12px 1fr auto auto; gap:10px; align-items:center;
-  font-size:.9rem; color:var(--ink-2); }
-.okey i { width:10px; height:10px; border-radius:3px; }
-.okey b { color:var(--ink); font-weight:700; font-variant-numeric:tabular-nums; }
-.okey em { font-style:normal; color:var(--ink-3); font-variant-numeric:tabular-nums; min-width:3.6em;
-  text-align:right; }
-.statcard .foot { margin-top:16px; padding-top:14px; border-top:1px solid var(--rule); }
+/* headline card: the same frosted card as the nav bar, type in the site's navy, and the
+   outcome bar drawn exactly like the chart bars further down the page */
+.statcard { border-radius:16px; padding:26px 26px 20px;
+  background:color-mix(in srgb,var(--paper) 78%,transparent);
+  -webkit-backdrop-filter:saturate(1.4) blur(14px); backdrop-filter:saturate(1.4) blur(14px);
+  border:1px solid color-mix(in srgb,var(--paper) 60%,var(--rule)); box-shadow:var(--shadow); }
+.statcard .kicker { font-size:.74rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); }
+.statcard .headline { display:block; margin:10px 0 0; }
+.statcard .headline .big { font-size:clamp(3.4rem,6vw,4.5rem); font-weight:700; letter-spacing:-0.045em;
+  color:var(--ink); line-height:1; }
+.statcard .headline .say { max-width:none; margin:10px 0 0; font-size:1rem; line-height:1.5; color:var(--ink-2); }
+.hbar { display:flex; height:22px; margin-top:22px; }
+.hbar i { display:block; height:100%; border:1px solid rgba(0,0,0,.6); margin-right:-1px; box-sizing:border-box;
+  min-width:3px; transition:filter .12s ease; }
+.hbar i:hover { filter:brightness(1.12); }
+.ostats { display:grid; gap:0; margin-top:12px; }
+.ostats > div { display:grid; grid-template-columns:minmax(0,1fr) auto 4.2em; gap:12px; align-items:baseline;
+  padding:9px 0; border-top:1px solid var(--rule); cursor:default; font-size:.92rem; }
+.ostats > div:first-child { border-top:0; }
+.ostats .nm { color:var(--ink-2); display:flex; align-items:center; gap:9px; }
+.ostats .sw { width:11px; height:11px; border:1px solid rgba(0,0,0,.55); flex:none; }
+.ostats b { font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }
+.ostats em { font-style:normal; color:var(--ink-3); font-variant-numeric:tabular-nums; text-align:right; }
+.statcard .foot { margin-top:6px; padding-top:14px; border-top:1px solid var(--rule); }
 
 /* ── stat strip ────────────────────────────────────────────────────────── */
 .strip { margin-top:8px; }
@@ -863,8 +869,8 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <p class="say" id="heroCaption">of significant-risk findings lacked a specific and
             proportionate publicly documented company response.</p>
         </div>
-        <div class="obar" id="obar" role="img" aria-label="Outcome split of significant-risk trackable findings"></div>
-        <ul class="okey" id="okey"></ul>
+        <div class="hbar" id="hbar" role="img" aria-label="Outcome split of the significant-risk trackable findings"></div>
+        <div class="ostats" id="ostats"></div>
         <div class="foot"><button class="more" type="button" data-scroll="sec-findings">See the key findings &darr;</button></div>
       </aside>
     </div>
@@ -1580,10 +1586,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1794994054"></script>
-<script src="app.js?v=1794994054"></script>
+<script src="data.js?v=1794994421"></script>
+<script src="app.js?v=1794994421"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1794994054"></script>
+<script type="module" src="tags3d.js?v=1794994421"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1793,19 +1799,20 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   /* outcome split behind the headline: the significant-risk trackable findings */
   var under = M.c1Gap - M.c1NoResponse;
   var parts = [
-    ['No response located', M.c1NoResponse, 'var(--gap)'],
-    ['Under-response', under, 'var(--under)'],
-    ['Proportionate', M.c1Proportionate, 'var(--ok)']
+    ['No response located', M.c1NoResponse, 'var(--c-maroon)'],
+    ['Under-response', under, 'var(--c-pink)'],
+    ['Proportionate', M.c1Proportionate, 'var(--c-cream)']
   ];
+  var p1 = function (v) { return (Math.round(v / M.trackableC1 * 1000) / 10).toFixed(1) + '%'; };
+  var hb = '', os = '';
   parts.forEach(function (p) {
-    var s = document.createElement('span');
-    s.style.flex = p[1] + ' 0 0'; s.style.background = p[2]; s.title = p[0] + ': ' + p[1];
-    $('obar').appendChild(s);
-    var li = document.createElement('li');
-    li.innerHTML = '<i style="background:' + p[2] + '"></i><span>' + p[0] + '</span><b>' + p[1] +
-      '</b><em>' + (Math.round(p[1] / M.trackableC1 * 1000) / 10).toFixed(1) + '%</em>';
-    $('okey').appendChild(li);
+    var tip = JSON.stringify({ t: p[0], r: [[p[2], p[1] + ' of ' + M.trackableC1 + ' (' + p1(p[1]) + ')', 'significant-risk findings', 0]] })
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    hb += '<i style="flex:' + p[1] + ' 0 0;background:' + p[2] + '" data-tip="' + tip + '"></i>';
+    os += '<div data-tip="' + tip + '"><span class="nm"><span class="sw" style="background:' + p[2] + '"></span>' + p[0] +
+      '</span><b>' + p[1] + '</b><em>' + p1(p[1]) + '</em></div>';
   });
+  $('hbar').innerHTML = hb; $('ostats').innerHTML = os;
 
   /* key-findings headlines, all computed from the data */
   var C1 = T.filter(function (f) { return f.sev === 'C1'; });
