@@ -620,10 +620,15 @@ dialog.lightbox::backdrop { background:rgba(14,21,40,.55); -webkit-backdrop-filt
 .cklegend span { display:inline-flex; align-items:center; gap:6px; }
 .cklegend i { width:11px; height:11px; border:1px solid rgba(0,0,0,.55); display:inline-block; }
 .rank { display:grid; gap:7px; }
-.rk-row { display:grid; grid-template-columns:minmax(0,190px) minmax(0,1fr) auto; gap:10px; align-items:center; }
+.rk-row { display:grid; grid-template-columns:minmax(0,214px) minmax(0,1fr) auto; gap:10px; align-items:center; }
 @media (max-width:520px){ .rk-row{ grid-template-columns:minmax(0,104px) minmax(0,1fr) auto; } }
-.rk-l { font-size:.84rem; color:var(--ink); text-align:right; white-space:nowrap; overflow:hidden;
-  text-overflow:ellipsis; font-weight:500; }
+.rk-l { font-size:.84rem; color:var(--ink); font-weight:500; display:flex; align-items:center;
+  justify-content:flex-end; gap:8px; min-width:0; }
+.rk-t { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.lg { width:20px; height:20px; flex:none; border-radius:5px; object-fit:contain; background:#fff;
+  box-shadow:0 0 0 1px var(--rule); }
+.lg-x { display:inline-flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:700;
+  color:var(--ink-3); background:var(--paper-2); }
 .rk-bar { display:flex; height:20px; min-width:0; }
 .rk-bar i { display:block; height:100%; border:1px solid rgba(0,0,0,.6); margin-right:-1px; min-width:2px;
   box-sizing:border-box; }
@@ -1547,10 +1552,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1794987849"></script>
-<script src="app.js?v=1794987849"></script>
+<script src="data.js?v=1794988663"></script>
+<script src="app.js?v=1794988663"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1794987849"></script>
+<script type="module" src="tags3d.js?v=1794988663"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1743,22 +1748,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 </dialog>
 
 <script>
-/* The flow diagram is redrawn by app.js on every resize event. Some browsers fire resize while
-   scrolling, so it is only redrawn here when its container's width has really changed, and the
-   drawing scales with its frame instead of keeping a fixed pixel size. */
-(function () {
-  if (typeof renderSankey !== 'function') return;
-  var orig = renderSankey, lastW = -1, lastTheme = null;
-  renderSankey = function () {
-    var m = document.getElementById('sankeyMount'); if (!m) return;
-    var w = m.clientWidth, th = document.documentElement.dataset.theme;
-    if (w === 0) return;
-    if (m.querySelector('svg') && Math.abs(w - lastW) < 8 && th === lastTheme) return;
-    lastW = w; lastTheme = th; orig();
-  };
-  renderSankey();
-})();
-
 /* Revamp layer: figures computed from data.js so no caption carries a typed-in number. */
 (function () {
   var D = window.AISI, F = D.findings, M = D.meta;
@@ -1833,9 +1822,15 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         if (!v) return '';
         return '<i style="width:' + (v / den * 100) + '%;background:' + segs[i][1] + '" title="' +
           r.label + ' · ' + segs[i][0] + ': ' + v + ' of ' + tot + '"></i>'; }).join('');
-      return '<div class="rk-row"><span class="rk-l" title="' + r.label + '">' + r.label +
-        '</span><span class="rk-bar">' + bars + '</span><span class="rk-v">' + r.note + '</span></div>';
+      return '<div class="rk-row"><span class="rk-l" title="' + r.label + '"><span class="rk-t">' + r.label +
+        '</span>' + (r.plain ? '' : logo(r.label)) + '</span><span class="rk-bar">' + bars + '</span><span class="rk-v">' + r.note + '</span></div>';
     }).join('');
+  }
+  /* organisation logos beside the labels (lookup lives in app.js); a lettered disc where none is held */
+  function logo(name) {
+    var f = logoFile(name);
+    if (f) return '<img class="lg" src="' + f + '" alt="" loading="lazy">';
+    return '<span class="lg lg-x" aria-hidden="true">' + (name.replace(/^\d+\s*/, '').charAt(0) || '·').toUpperCase() + '</span>';
   }
   function group(arr, keyFn) {
     var m = {}; arr.forEach(function (f) { [].concat(keyFn(f)).forEach(function (k) { if (k) (m[k] = m[k] || []).push(f); }); });
@@ -1855,7 +1850,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var devRest = devs.filter(function (d) { return d.a.length < 4; });
   var devRows = devTop.map(function (d) { return { label: d.k, parts: outParts(d.a), note: String(d.a.length) }; });
   if (devRest.length) { var ra = [].concat.apply([], devRest.map(function (d) { return d.a; }));
-    devRows.push({ label: devRest.length + ' others', parts: outParts(ra), note: String(ra.length) }); }
+    devRows.push({ plain: true, label: devRest.length + ' others', parts: outParts(ra), note: String(ra.length) }); }
   set('rkDevT', devs[0].k + ' and ' + devs[1].k + ' account for ' + (devs[0].a.length + devs[1].a.length) +
     ' of the ' + T.length + ' trackable findings');
   set('rkDevS', 'Companies ranked by trackable evaluation findings about their models, split by how the company responded.');
@@ -1896,7 +1891,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   set('rkDomT', doms2[0].k + ' and ' + doms2[1].k.toLowerCase() + ' are the most studied risk areas');
   set('rkDomS', 'Risk areas ranked by findings. A finding can sit in more than one area.');
   legend('rkDomL', SPLIT);
-  rank('rkDom', doms2.map(function (d) { return { label: d.k, parts: splitParts(d.a), note: String(d.a.length) }; }), SPLIT);
+  rank('rkDom', doms2.map(function (d) { return { plain: true, label: d.k, parts: splitParts(d.a), note: String(d.a.length) }; }), SPLIT);
 
   /* 5. evaluators by evaluations (reports) published */
   var insts = group(F, function (f) { return f.inst; });

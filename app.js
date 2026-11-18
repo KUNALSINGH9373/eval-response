@@ -285,9 +285,29 @@ const yearCols = years.map(y => ({
 }));
 
 /* ================= chart renderers ================= */
+/* Organisation logos (files in logos/). Used wherever a chart names a company, an evaluator or a
+   model version; a model version takes its developer's logo. Returns null when none is held. */
+const LOGOS = [
+  [/^openai/i, "openai"], [/^anthropic/i, "anthropic"], [/^google/i, "google"], [/^deepseek/i, "deepseek"],
+  [/^meta\b/i, "meta"], [/^xai/i, "xai"], [/^alibaba/i, "alibaba"], [/^zhipu/i, "zhipu"], [/^moonshot/i, "moonshot"],
+  [/^mistral/i, "mistral"], [/^cohere/i, "cohere"], [/^nvidia/i, "nvidia"],
+  [/^(joint )?uk aisi/i, "ukaisi"], [/^scale ai/i, "scale"], [/^metr/i, "metr"], [/^collective intelligence/i, "cip"],
+  [/^apollo/i, "apollo"], [/^securebio/i, "securebio"], [/^transluce/i, "transluce"], [/^dreadnode/i, "dreadnode"],
+  [/^far\.ai/i, "far"], [/^us caisi/i, "caisi"], [/^center for ai safety/i, "cais"], [/^redwood/i, "redwood"],
+  [/^palisade/i, "palisade"], [/^irregular/i, "irregular"],
+  [/^(gpt|o\d)/i, "openai"], [/^claude/i, "anthropic"], [/^gemini/i, "google"], [/^llama/i, "meta"],
+  [/^grok/i, "xai"], [/^qwen/i, "alibaba"], [/^kimi/i, "moonshot"], [/^glm/i, "zhipu"],
+  [/^command/i, "cohere"], [/^(codestral|pixtral)/i, "mistral"],
+];
+function logoFile(name) {
+  const hit = LOGOS.find(([re]) => re.test(String(name)));
+  return hit ? `logos/${hit[1]}.png` : null;
+}
+window.logoFile = logoFile;
+
 const MB = { barH: 22, gap: 12, labelW: 210, valueW: 44, rx: 4 };
 
-function renderHBars(mount, rows, colorVar, tipTitle) {
+function renderHBars(mount, rows, colorVar, tipTitle, withLogos) {
   mount.replaceChildren();
   const color = cvar(colorVar), surface = cvar("--surface");
   const W = Math.max(320, mount.clientWidth);
@@ -300,10 +320,15 @@ function renderHBars(mount, rows, colorVar, tipTitle) {
   rows.forEach((r, i) => {
     const y = i * rowH + MB.gap / 2;
     const w = Math.max(2, (r.value / max) * plotW);
+    const lg = withLogos ? logoFile(r.label) : null;
     const lbl = s("text", {
-      x: labelW - 10, y: y + MB.barH / 2 + 4, "text-anchor": "end",
+      x: labelW - 10 - (lg ? 24 : 0), y: y + MB.barH / 2 + 4, "text-anchor": "end",
       fill: cvar("--ink-2"), "font-size": "12",
     }, r.label);
+    if (lg) {
+      svg.append(s("rect", { x: labelW - 28, y: y + 2, width: 18, height: 18, rx: 4, fill: "#fff", stroke: cvar("--grid") }));
+      svg.append(s("image", { href: lg, x: labelW - 27, y: y + 3, width: 16, height: 16 }));
+    }
     const bar = s("path", { d: barRight(labelW, y, w, MB.barH, MB.rx), fill: color });
     const val = s("text", {
       x: labelW + w + 8, y: y + MB.barH / 2 + 4,
@@ -612,7 +637,7 @@ const charts = [
     title: "Most-evaluated models",
     sub: `Findings per named model, from finding-level tags · ${modelStats.length} distinct named models in the dataset`,
     wide: false,
-    render(mount) { renderHBars(mount, modelRows, "--magenta", "Findings"); },
+    render(mount) { renderHBars(mount, modelRows, "--magenta", "Findings", true); },
     table: () => [["Model", "Findings", "Reports"], ...modelRows.map(r => [r.label, r.value, r.papers])],
   },
   {
@@ -639,7 +664,7 @@ const charts = [
     title: "Findings by institution",
     sub: "Grouped; 'Not recorded' rows come from the completeness audit",
     wide: false,
-    render(mount) { renderHBars(mount, instRows, "--orange", "Findings"); },
+    render(mount) { renderHBars(mount, instRows, "--orange", "Findings", true); },
     table: () => [["Institution", "Findings"], ...instRows.map(r => [r.label, r.value])],
   },
   {
@@ -783,6 +808,11 @@ let sankeyRevealed = false;
 function renderSankey() {
   const mount = document.getElementById("sankeyMount");
   if (!mount) return;
+  /* Redraw only when the container width or theme really changed: some browsers fire resize
+     while scrolling, and a redraw on each one makes the diagram jump. */
+  const wNow = mount.clientWidth, thNow = root.dataset.theme || "";
+  if (mount.querySelector("svg") && Math.abs(wNow - (renderSankey.w || 0)) < 8 && thNow === renderSankey.th) return;
+  renderSankey.w = wNow; renderSankey.th = thNow;
   const { nodes, links, cols } = sankeyModel();
   const byId = new Map(nodes.map(n => [n.id, n]));
   const W = Math.max(560, mount.clientWidth);
