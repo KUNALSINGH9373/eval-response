@@ -113,10 +113,10 @@ document.getElementById("asof").textContent =
    into one another whenever every Tier A gap was a C1 gap — the same figure printed
    twice under two names — so the Tier A count is shown instead. */
 const tiles = [
-  { label: "Trackable evaluation findings", value: M.trackable, sub: "a company could answer for it" },
-  { label: "Significant risk", value: M.trackableC1, sub: `of ${M.trackable} trackable evaluation findings` },
-  { label: "Any response at all", value: M.anyResponse, sub: `${pct(M.anyResponse, M.trackable)}% of the set` },
-  { label: "Substantive responses", value: M.substantive, sub: "a specific, documented change" },
+  { label: "Trackable evaluation findings", value: M.trackable, sub: `of ${M.totalFindings.toLocaleString()} findings` },
+  { label: "Significant-risk findings", value: M.trackableC1, sub: `of ${M.trackable} trackable evaluation findings` },
+  { label: "Company response located", value: M.anyResponse, sub: `${pct(M.anyResponse, M.trackable)}% of trackable findings` },
+  { label: "Substantive responses", value: M.substantive, sub: "a specific documented mitigation" },
 ];
 document.getElementById("tiles").append(
   ...tiles.map(t => h("div", { class: "tile" },
@@ -249,14 +249,14 @@ const modelRows = modelStats.slice(0, 15)
   .sort((a, b) => b.findings - a.findings)
   .map(t => ({ label: t.tag, value: t.findings, papers: t.papers }));
 document.getElementById("tiles").append(h("div", { class: "tile" },
-  h("div", { class: "label" }, "Named models evaluated"),
+  h("div", { class: "label" }, "Model versions named"),
   h("div", { class: "value" }, String(modelStats.length)),
   h("div", { class: "sub" }, "distinct versions, from tags")));
 if (M.sweep) {
   document.getElementById("tiles").append(h("div", { class: "tile" },
     h("div", { class: "label" }, "Publications screened"),
     h("div", { class: "value" }, M.sweep.screened.toLocaleString()),
-    h("div", { class: "sub" }, "screened for evaluation-relevance")));
+    h("div", { class: "sub" }, "publication records collected")));
 }
 
 /* ---- reports per year, by institution group ---- */
@@ -756,24 +756,24 @@ function sankeyModel() {
     nodes.push({
       id: "screened", col: 0, label: "Publications screened", value: M.sweep.screened,
       cv: "--axis", fullBleed: true, sweep: true,
-      desc: `systematic census across ${M.sweep.venues} evaluator organisations`,
+      desc: `systematic census across ${M.sweep.venues} evaluator organizations`,
     });
   }
   nodes.push(
     { id: "all", col: baseCol, label: "All findings", items: F, cv: "--blue",
       desc: "every finding in the dataset" },
-    { id: "emp", col: baseCol + 1, label: "Empirical model findings", items: empItems, cv: "--blue",
-      desc: "a model was actually tested" },
-    { id: "nonemp", col: baseCol + 1, label: "Methodology, governance & trends", items: nonEmpItems, cv: "--axis", exit: true,
-      desc: "no company response is expected" },
+    { id: "emp", col: baseCol + 1, label: "Evaluation findings", items: empItems, cv: "--blue",
+      desc: "empirical findings about model behavior or capability" },
+    { id: "nonemp", col: baseCol + 1, label: "Non-empirical findings", items: nonEmpItems, cv: "--axis", exit: true,
+      desc: "methodology, frameworks, governance processes, and tooling" },
     { id: "set", col: baseCol + 2, label: "Trackable findings", items: setItems, cv: "--blue",
-      desc: "named company, concerning result — a response is reasonable to expect" },
-    { id: "excl", col: baseCol + 2, label: "Not action-trackable", items: exclItems, cv: "--axis", exit: true,
-      desc: "anonymised models, reassuring nulls, benchmark deltas, self-reports…" },
-    { id: "C1", col: baseCol + 3, label: "Significant risk", items: c1Items, cv: "--red",
-      desc: "one of the eight dangerous-capability thresholds was demonstrated" },
-    { id: "C2", col: baseCol + 3, label: "Low risk", items: c2Items, cv: "--blue",
-      desc: "a real, verified finding that crossed no danger threshold" },
+      desc: "a concrete company response can reasonably be assessed" },
+    { id: "excl", col: baseCol + 2, label: "Non-trackable findings", items: exclItems, cv: "--axis", exit: true,
+      desc: "anonymized systems, null or inconclusive results, rankings, capability trends" },
+    { id: "C1", col: baseCol + 3, label: "Significant-risk", items: c1Items, cv: "--red",
+      desc: "met at least one significant-risk threshold" },
+    { id: "C2", col: baseCol + 3, label: "Low-risk", items: c2Items, cv: "--blue",
+      desc: "all remaining findings" },
     ...ACTIONS.map((a, i) => ({
       id: "act" + a, col: baseCol + 4, label: a,
       items: [...actionItems["C1|" + a], ...actionItems["C2|" + a]],

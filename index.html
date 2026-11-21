@@ -660,7 +660,7 @@ dialog.lightbox::backdrop { background:rgba(14,21,40,.55); -webkit-backdrop-filt
 .step h3 i { width:12px; height:12px; border:1px solid rgba(0,0,0,.55); display:inline-block; margin-right:8px; }
 .step p { margin:0; font-size:.9rem; line-height:1.5; color:var(--ink-2); }
 .ckgrid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
-.ckgrid.three .rk-row { grid-template-columns:minmax(0,104px) minmax(0,1fr) auto; }
+.ckgrid.three .rk-row { grid-template-columns:minmax(0,122px) minmax(0,1fr) auto; }
 .ckgrid.three .rk-v small { display:none; }
 @media (max-width:1100px){ .ckgrid.three{ grid-template-columns:1fr; } }
 .ckread { font-size:.88rem; color:var(--ink-2); margin-top:16px; line-height:1.55; }
@@ -769,6 +769,18 @@ figcaption { font-size:.95rem; max-width:92ch; }
 #p-method .detail { border-left-color:var(--accent); }
 #p-method .w-c1, #p-method .w-gap, #p-method .w-par, #p-method .w-ack { color:var(--c-maroon) !important; }
 #p-method .w-ok, #p-method .w-c2 { color:var(--ink) !important; }
+.hnote { margin:12px 0 0; font-size:.78rem; line-height:1.5; color:var(--ink-3); }
+.bigstat { display:flex; align-items:baseline; gap:14px; margin:16px 0 2px; }
+.bigstat b { font-size:3.2rem; font-weight:750; line-height:1; letter-spacing:-.03em; color:var(--c-maroon); }
+.bigstat span { font-size:.95rem; color:var(--ink-2); }
+.subh { margin:34px 0 4px; font-size:1.08rem; font-weight:650; }
+.extbl { max-width:none !important; }
+.extbl td { vertical-align:top; font-weight:400 !important; color:var(--ink-2); }
+.extbl td:nth-child(2) { font-weight:650 !important; color:var(--ink); white-space:nowrap; }
+.extbl td.o-no { background:var(--c-maroon); color:#fff; font-weight:650 !important; }
+.extbl td.o-un { background:var(--c-pink); color:#111; font-weight:650 !important; }
+.extbl td.o-pr { background:var(--c-cream); color:#111; font-weight:650 !important; }
+#p-results .mx-c em { letter-spacing:.01em; font-size:.6rem; }
 /* category-style sub tabs */
 .subtabs { justify-content:flex-start; gap:6px; border-bottom:1px solid var(--rule);
   border-top:1px solid var(--rule); padding:10px 0; margin-bottom:22px; position:sticky; top:80px;
@@ -885,11 +897,11 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         <h1 class="pagetitle">Do frontier AI developers<br>act on third-party risk findings?</h1>
         <p class="pagesub">Analyzing publicly available evidence of company responses to evaluations</p>
         <p class="lede">Government AI institutes and independent evaluators test advanced systems
-          for dangerous capabilities, safeguard failures and other risks. Yet identifying a risk is
-          not the same as reducing it. This dataset asks a narrow question: <b>when an evaluator
-          publishes a risk-relevant finding about a named frontier system, does the public record
-          document action attributed to that finding and directed at mitigating the identified
-          risk?</b></p>
+          for dangerous capabilities, safeguard failures, and other risks. An evaluation can
+          document a serious vulnerability but does not oblige a developer to respond. This study
+          asks a narrow question: <b>when a government or an independent evaluator publishes a
+          risk-relevant finding about a named frontier system, does the public record document
+          company action that addresses the identified risk?</b></p>
         <div class="actions">
           <a class="btn primary" href="#data" data-go="data">Explore the data</a>
           <a class="btn" href="#method" data-go="method">Read the methodology</a>
@@ -897,7 +909,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         <div class="meta tnum">
           <span><b id="mFindings">—</b> findings</span>
           <span><b id="mReports">—</b> reports</span>
-          <span><b id="mInst">—</b> evaluators</span>
+          <span><b>46</b> evaluator organizations</span><b id="mInst" hidden></b>
           <span id="mWindow"></span>
         </div>
       </div>
@@ -910,6 +922,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         </div>
         <div class="hbar" id="hbar" role="img" aria-label="Outcome split of the significant-risk trackable findings"></div>
         <div class="ostats" id="ostats"></div>
+        <p class="hnote">Using the Kaplan&ndash;Meier method, we estimate that 7 (95% CI: 1 to 16)
+          proportionate responses may not yet have arrived by the study cutoff of 29 August 2026.
+          Adding this estimate would yield a proportionate-response rate of 18%, compared to the
+          observed 14%.</p>
         <div class="foot"><button class="more" type="button" data-scroll="sec-findings">See the key findings &darr;</button></div>
       </aside>
     </div>
@@ -923,8 +939,8 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <section class="sec" id="sec-rank">
       <div class="sechead">
         <div><h2>Who was evaluated, and by whom</h2>
-          <p>Rankings of the companies, models, evaluators and risk areas in the dataset, drawn
-            live from the data. Hover a bar for its exact count.</p></div>
+          <p>The developers, models, risk domains and evaluating institutions in the dataset.
+            Hover a bar for its exact count.</p></div>
       </div>
       <div class="ckgrid">
         <figure class="ck"><h3 id="rkDevT"></h3><p class="cksub" id="rkDevS"></p>
@@ -946,73 +962,77 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <section class="sec" id="sec-findings">
       <div class="sechead">
         <div><h2>Key findings</h2>
-          <p>Six results from the <span id="kfC1"></span> significant-risk findings a named company
-            could answer for. A response <b>fell short</b> when it was weaker than the risk called
-            for, or when there was no response at all. Hover any bar or point for its exact count.</p></div>
+          <p>Results for the <span id="kfC1"></span> significant-risk trackable findings, unless a
+            chart says otherwise. The <b>shortfall</b> combines findings with no located public
+            company response and findings whose documented response fell below the required Action
+            Level or lacked explicit attribution. Hover any bar or point for its exact count.</p></div>
         <a class="more" href="#data" data-go="data">All charts &rarr;</a>
       </div>
       <div class="ckgrid">
         <figure class="ck">
-          <span class="cktag tag t-access">Timing of access</span>
-          <h3>Findings published after a model's release mostly got no response:
-            <span id="hPostNone"></span>, against <span id="hPreNone"></span> for findings shared before release</h3>
+          <span class="cktag tag t-access">Model access</span>
+          <h3 id="kfAccT"></h3>
           <div class="cklegend" id="kfAccessL"></div><div class="rank" id="kfAccess"></div>
-          <p class="ckread">Each bar is all the significant-risk findings from one stage of access, split by how the
-            company responded. When evaluators tested a model before release, companies almost
-            always answered (<span id="cPreN"></span> findings). When the evaluation came after
-            release, most findings went unanswered (<span id="cPostN"></span> findings).
-            Pre-release access is granted by the company, so this is something policy can change.</p>
+          <p class="ckread" id="kfAccR"></p>
           <button class="more figbtn" type="button" data-figsrc="charts/16_gap_rate_by_access_type.jpg" data-figalt="Share of findings with no documented company action, by when the evaluator had access.">View the paper figure &rarr;</button>
         </figure>
         <figure class="ck">
-          <span class="cktag tag t-time">Change over time</span>
-          <h3>Responses have not clearly improved: <span id="hYears"></span> of findings fell short</h3>
-          <div class="cklegend" id="kfYearL"></div><div class="rank" id="kfYear"></div>
-          <p class="ckread">The solid line is the share of each year's significant-risk findings where the response
-            fell short. The dashed line is the share with no response at all. The latest year looks
-            better partly because those findings are recent and companies have had less time to
-            respond.</p>
-          <button class="more figbtn" type="button" data-figsrc="charts/15b_shortfall_rate_by_year.jpg" data-figalt="Share of significant-risk findings whose response fell short, by year.">View the paper figure &rarr;</button>
+          <span class="cktag tag t-time">Response timing</span>
+          <h3 id="kfTimeT"></h3>
+          <div class="rank" id="kfTime" style="margin-top:14px"></div>
+          <p class="ckread" id="kfTimeR"></p>
         </figure>
         <figure class="ck">
-          <span class="cktag tag t-domain">Risk area</span>
-          <h3>The shortfall appears in every major risk area, from <span id="hDomLo"></span> to <span id="hDomHi"></span></h3>
+          <span class="cktag tag t-domain">Risk domain</span>
+          <h3 id="kfDomT"></h3>
           <div class="cklegend" id="kfDomL"></div><div class="rank" id="kfDom"></div>
-          <p class="ckread">Each bar is one risk area's findings, split by how the company responded. Share where the
-            response fell short: <span id="cDoms"></span>. The gap is not caused by one research
-            topic. This chart covers all <span id="cTrack"></span> trackable findings, and a finding
-            can sit in more than one area.</p>
-          <button class="more figbtn" type="button" data-figsrc="charts/22_domain_x_outcome_heatmap.jpg" data-figalt="Outcome by risk domain.">View the paper figure &rarr;</button>
+          <p class="ckread" id="kfDomR"></p>
         </figure>
         <figure class="ck">
-          <span class="cktag tag t-who">Who published it</span>
-          <h3>Government institutes are ignored less often than independent evaluators
-            (<span id="cGovPct"></span> against <span id="cTpPct"></span> with no response), but most
-            responses to both fall short</h3>
+          <span class="cktag tag t-who">Evaluator type</span>
+          <h3 id="kfWhoT"></h3>
           <div class="cklegend" id="kfWhoL"></div><div class="rank" id="kfWho"></div>
-          <p class="ckread">Each bar splits one evaluator type's significant-risk findings into no response,
-            under-response and proportionate. Responses fell short for <span id="cGovShort"></span>
-            of government-institute findings and <span id="cTpShort"></span> of third-party findings.</p>
+          <p class="ckread">The difference was not statistically significant after accounting for
+            clustering within reports. By reporting configuration, the shortfall ranged from 80.0%
+            for standalone UK AISI evaluations (16 of 20) to 100% for standalone US CAISI
+            evaluations (4 of 4).</p>
           <button class="more figbtn" type="button" data-figsrc="charts/12_evaluator_scope.jpg" data-figalt="Outcome mix by evaluator type.">View the paper figure &rarr;</button>
         </figure>
         <figure class="ck">
-          <span class="cktag tag t-policy">Government follow-up</span>
-          <h3>Only <span id="hPolBind"></span> of <span id="hPolN"></span> findings led to binding government action</h3>
+          <span class="cktag tag t-attr">Independent verification</span>
+          <h3>One company response had a reported independent retest</h3>
+          <div class="bigstat"><b>1</b><span>of 72 significant-risk findings with a located company response</span></div>
+          <p class="ckread">Anthropic reported that US CAISI tested its rebuilt cyber classifier
+            before redeployment. In one additional case, UK AISI explicitly stated that it could
+            not verify OpenAI's final mitigation after identifying a GPT-5.5 jailbreak. For the
+            remaining 70 findings, the public record contained the company's own description of
+            its response but no independent confirmation that the documented action was
+            implemented or effective.</p>
+        </figure>
+        <figure class="ck">
+          <span class="cktag tag t-policy">Policy uptake</span>
+          <h3>Policy uptake is documented for one in five findings but is almost entirely non-binding</h3>
           <div class="cklegend" id="kfPolL"></div><div class="rank" id="kfPol"></div>
-          <p class="ckread">Each bar counts trackable findings by the strongest official policy record that cites them.
-            <span id="cPolNon"></span> were cited in non-binding records such as reports or hearings,
-            and <span id="cPolNone"></span> were not cited at all. Government follow-up is counted
-            separately and never stands in for a company response.</p>
+          <p class="ckread" id="kfPolR"></p>
           <button class="more figbtn" type="button" data-figsrc="charts/09_policy_level_distribution.jpg" data-figalt="Policy uptake of trackable findings.">View the paper figure &rarr;</button>
         </figure>
         <figure class="ck">
-          <span class="cktag tag t-attr">Credit to the evaluator</span>
-          <h3>When companies do respond, <span id="hAttr"></span> responses name the evaluator's finding</h3>
+          <span class="cktag tag t-attr">Attribution</span>
+          <h3 id="kfAttrT"></h3>
           <div class="cklegend" id="kfAttrL"></div><div class="rank" id="kfAttr"></div>
-          <p class="ckread">The first two bars are findings that drew a company response, split by whether the company
-            explicitly tied it to the finding. The third bar is findings with no response. A
-            response only counts as proportionate when it is explicitly attributed.</p>
+          <p class="ckread">A response has explicit attribution when the company names the finding,
+            report, result, or evaluator, or states that this evidence informed its response.
+            Outcomes shown as Proportionate require explicit attribution.</p>
           <button class="more figbtn" type="button" data-figsrc="charts/18_attribution_distribution.jpg" data-figalt="Whether company responses name the evaluator's finding.">View the paper figure &rarr;</button>
+        </figure>
+        <figure class="ck">
+          <span class="cktag tag t-time">Publication year</span>
+          <h3>Share of significant-risk findings without a proportionate response, by publication year</h3>
+          <div class="cklegend" id="kfYearL"></div><div class="rank" id="kfYear"></div>
+          <p class="ckread">The solid line is the share of each year's significant-risk findings
+            without a proportionate response; the dashed line is the share with no located
+            response. Findings published more recently have had less time to draw a response, so
+            the years are not directly comparable. This is a descriptive view of the dataset.</p>
         </figure>
       </div>
     </section>
@@ -1021,14 +1041,14 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <section class="sec">
       <div class="sechead">
         <div><h2>What happens to a published finding</h2>
-          <p>Every published finding, narrowed to the ones a company owes an answer for.</p></div>
+          <p>The path from the 1,120 findings to the 179 significant-risk findings whose company responses we coded.</p></div>
       </div>
       <figure class="frame">
         <div id="pipeline"><div id="sankeyMount" class="plot"></div></div>
         <figcaption style="margin-top:var(--s4)">
-          Ribbon width shows the number of findings. Those that drop out are methodology,
-          governance or results with no named company, so no response is owed. Hover a ribbon
-          for its count.</figcaption>
+          Ribbon width shows the number of findings. Non-empirical findings and non-trackable
+          evaluation findings do not enter the company-response analysis. Hover a ribbon for its
+          count.</figcaption>
         <details class="tblview" id="sankeyTable"><summary>Table view</summary></details>
       </figure>
     </section>
@@ -1045,31 +1065,34 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         <figure class="ck">
           <span class="num">Step 1 · Classification</span>
           <h3 id="cpTierT"></h3>
-          <p class="cksub">A finding is trackable when it reports a measured result, names a
-            company or model, and calls for a response. Only trackable findings are scored.</p>
+          <p class="cksub">A finding is trackable when it reports a specific adverse or
+            safety-relevant result, names the model, system, or developer involved, and a concrete
+            company response to the reported result can reasonably be assessed.</p>
           <div class="rank" id="cpTier" style="margin-top:14px"></div>
         </figure>
         <figure class="ck">
           <span class="num">Step 2 · Severity</span>
           <h3 id="sevT"></h3>
-          <p class="cksub">Three models score each finding against eight risk domains, and the
-            majority vote is human-reviewed. Significant risk means a dangerous capability or a
-            safeguard failure was demonstrated.</p>
+          <p class="cksub">A finding is significant-risk when its reported evidence met at least
+            one significant-risk threshold across eight domains. Three frontier models classified
+            every finding, and two authors reviewed every finding against its source.</p>
           <div class="cklegend" id="sevL"></div><div class="rank" id="sevC"></div>
         </figure>
         <figure class="ck">
           <span class="num">Step 3 · Response channels</span>
           <h3 id="chT"></h3>
-          <p class="cksub">Three searches are run for every trackable finding. Only the company's
-            own documents count as a company response.</p>
+          <p class="cksub">For each trackable evaluation finding, we ran three separate searches:
+            company response, policy uptake, and public coverage. Only the company's own documents
+            count as a company response.</p>
           <div class="rank" id="chC" style="margin-top:14px"></div>
         </figure>
         <figure class="ck">
           <span class="num">Step 4 · Action level</span>
           <h3 id="actT"></h3>
-          <p class="cksub">The strongest thing the company published: a specific documented change
-            (Substantive), a claimed but unverifiable one (Partial), a reference with no action
-            (Acknowledged), or nothing (None).</p>
+          <p class="cksub">Action Level records the strength of the publicly documented company
+            response: a specific mitigation that directly addressed the problem (Substantive), an
+            incomplete, interim or unverified action (Partial), an acknowledgment with no action
+            specified (Acknowledged), or no public response identified (None).</p>
           <div class="rank" id="actC" style="margin-top:14px"></div>
         </figure>
       </div>
@@ -1078,52 +1101,65 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <section class="sec" id="sec-prop">
       <div class="sechead">
         <div><h2>Was the company response proportionate to the risk identified?</h2>
-          <p>The verdict combines severity and action level by a fixed rule.</p></div>
+          <p>We operationalized the proportionality of a response using finding severity and
+            Action Level.</p></div>
       </div>
       <div class="steps">
         <div class="step">
           <h3><i style="background:var(--c-cream)"></i>Proportionate</h3>
-          <p>Substantive for a significant-risk finding, Partial or better for a low-risk one,
-            and explicitly attributed to the finding.</p>
+          <p>A substantive response with explicit attribution for a significant-risk finding; a
+            partial or substantive response with explicit attribution for a low-risk finding.</p>
         </div>
         <div class="step">
           <h3><i style="background:var(--c-pink)"></i>Under-response</h3>
-          <p>The company engaged, but did less than the risk called for.</p>
+          <p>A public response was documented, but it fell below the required Action Level or
+            lacked explicit attribution.</p>
         </div>
         <div class="step">
           <h3><i style="background:var(--c-maroon)"></i>No response</h3>
-          <p>Nothing was located in the public record.</p>
+          <p>No publicly documented company response was located.</p>
         </div>
       </div>
       <div class="ckgrid" style="margin-top:22px">
         <figure class="ck">
           <h3 id="mxT"></h3>
-          <p class="cksub">Trackable findings by severity (rows) and action level (columns). Cell
-            colour is the verdict most findings in it received.</p>
+          <p class="cksub">Trackable evaluation findings by severity (rows) and Action Level
+            (columns). Cell color shows the outcome most findings in the cell received.</p>
           <div class="cklegend" id="mxL"></div><div class="mx" id="mx"></div>
         </figure>
         <figure class="ck">
           <h3 id="vdT"></h3>
-          <p class="cksub">The same findings grouped into the three verdicts, as a share of each
-            severity level.</p>
+          <p class="cksub">Proportionality outcomes for significant-risk and low-risk trackable
+            evaluation findings.</p>
           <div class="cklegend" id="vdL"></div><div class="rank" id="vd"></div>
-          <p class="ckread">Proportionate means a documented response met the bar the finding's
-            severity sets. It does not mean the response worked or that the risk was removed.</p>
+          <p class="ckread" id="vdR"></p>
+          <p class="ckread">Our proportionality annotations did not guarantee that the response
+            was implemented, that it worked, or that the risk was completely mitigated.</p>
         </figure>
       </div>
+
+      <h3 class="subh">An example of each outcome</h3>
+      <table class="matrix extbl">
+        <thead><tr><th style="width:15rem">Outcome</th><th style="width:7.5rem">n (% of 179)</th><th>Illustrative example</th></tr></thead>
+        <tbody>
+          <tr><td class="o-no">No publicly documented company response located</td><td id="exNo"></td><td>The AgentHarm benchmark, built by UK AISI and Gray Swan AI, found that several models complied with malicious agentic requests at high rates. The worst case, Mistral Large 2, recorded an 82.2% harm score against a 1.1% refusal rate.</td></tr>
+          <tr><td class="o-un">Documented response that did not meet the proportionality standard</td><td id="exUn"></td><td>UK AISI developed a universal jailbreak against GPT-5.5 in six hours of expert red-teaming. OpenAI reported nonspecific changes to its safeguard stack, but UK AISI could not verify that the final configuration was effective.</td></tr>
+          <tr><td class="o-pr">Proportionate documented response</td><td id="exPr"></td><td>UK AISI and US CAISI found multiple universal jailbreaks bypassing the Constitutional Classifiers protecting Claude Opus 4 and 4.1. Anthropic responded by restructuring its safeguard architecture to address the underlying vulnerability class.</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- ── the dataset ── -->
     <section class="sec" id="sec-corpus">
       <div class="sechead">
         <div><h2>What the dataset contains</h2>
-          <p>The <span id="cTotal"></span> findings come from <span id="cInsts"></span> evaluators.</p></div>
+          <p>The <span id="cTotal"></span> findings come from <span id="cReps"></span> reports and are recorded under <span id="cInsts"></span> reporting-institution labels, including joint evaluator labels.</p></div>
         <a class="more" href="#data" data-go="data">Browse every finding &rarr;</a>
       </div>
       <div class="ckgrid three">
         <figure class="ck">
           <h3 id="cpAccT"></h3>
-          <p class="cksub">All findings by when the evaluator had access to the model.</p>
+          <p class="cksub">All findings by model access type.</p>
           <div class="cklegend" id="cpAccL"></div><div class="rank" id="cpAcc"></div>
         </figure>
         <figure class="ck">
@@ -1133,7 +1169,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         </figure>
         <figure class="ck">
           <h3 id="cpWhoT"></h3>
-          <p class="cksub">All findings by the kind of evaluator that produced them.</p>
+          <p class="cksub">All findings by type of evaluator.</p>
           <div class="cklegend" id="cpWhoL"></div><div class="rank" id="cpWho"></div>
         </figure>
       </div>
@@ -1146,8 +1182,8 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       <div class="dgrid">
         <div class="dcard">
           <h3>Methodology</h3>
-          <p>What counts as a finding, when a response is owed, the eight severity domains, the
-            three evidence searches and the proportionality lookup.</p>
+          <p>Data collection and scope, trackable findings, risk severity classification,
+            response evidence, proportionality and limitations.</p>
           <a class="btn dark" href="#method" data-go="method">Read the methodology</a>
         </div>
         <div class="dcard">
@@ -1410,6 +1446,19 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       </div>
     </section>
 
+    <section class="msec" id="s-lim">
+      <h2 class="mhead"><span>05</span>Limitations</h2>
+      <div class="sub" data-active>
+      <div class="step2">
+        <p>The study is limited to evidence available in the public record through 29 August 2026.
+          We assigned Action Level None when the search located no qualifying public company
+          response by the cutoff. Private communication, preventive action, unattributed
+          remediation, and unreported verification are therefore unobservable for this study.</p>
+        <p>Non-English reports were excluded from this study.</p>
+      </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -1486,10 +1535,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795242460"></script>
-<script src="app.js?v=1795242460"></script>
+<script src="data.js?v=1795243283"></script>
+<script src="app.js?v=1795243283"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795242460"></script>
+<script type="module" src="tags3d.js?v=1795243283"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1718,30 +1767,62 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var C1 = T.filter(function (f) { return f.sev === 'C1'; });
   var none = function (f) { return f.action === 'None' || !f.action; };
   var short = function (f) { return f.prop !== 'Proportionate'; };
-  set('kfC1', C1.length); set('cTrack', T.length);
+  set('kfC1', C1.length); set('cReps', M.reports);
+  var fx = function (a, b) { return b ? (a / b * 100).toFixed(1) + '%' : '0%'; };
+  var subF = function (f) { return f.action === 'Substantive'; };
   var pre = C1.filter(function (f) { return f.access === 'Pre-deployment'; });
   var post = C1.filter(function (f) { return f.access === 'Post-deployment'; });
-  set('hPostNone', pct(n(post, none), post.length)); set('hPreNone', pct(n(pre, none), pre.length));
-  set('cPreN', pre.length); set('cPostN', post.length);
+  set('kfAccT', 'Developers documented a substantive response for ' + fx(n(pre, subF), pre.length) +
+    ' of significant-risk findings from pre-deployment testing and ' + fx(n(post, subF), post.length) + ' of those from post-deployment testing');
+  set('kfAccR', 'Among significant-risk findings, developers documented a substantive response for ' + n(pre, subF) + ' of the ' +
+    pre.length + ' pre-deployment findings but for only ' + n(post, subF) + ' of the ' + post.length + ' post-deployment findings. ' +
+    (n(pre, none) === 1 ? 'One pre-deployment finding' : n(pre, none) + ' pre-deployment findings') + ' (' + fx(n(pre, none), pre.length) + ') and ' + n(post, none) +
+    ' post-deployment findings (' + fx(n(post, none), post.length) + ') had no located response. Part of this gap may come from how ' +
+    'pre-deployment findings are published: many appear in the developer\'s own system card, which reports the finding and the response or acknowledgement together.');
   var yrs = {}; C1.forEach(function (f) { var y = (f.date || '').slice(0, 4); (yrs[y] = yrs[y] || []).push(f); });
-  set('hYears', Object.keys(yrs).sort().map(function (y) { return pct(n(yrs[y], short), yrs[y].length) + ' in ' + y; }).join(', '));
-  var doms = {}; T.forEach(function (f) { f.dom.forEach(function (d) { (doms[d] = doms[d] || []).push(f); }); });
+  var DOMNAME = { 'Bio-Chem': 'Biological and chemical', 'Eval-methodology': 'Evaluation methodology' };
+  var dn = function (k) { return DOMNAME[k] || k; };
+  var doms = {}; C1.forEach(function (f) { f.dom.forEach(function (d) { (doms[d] = doms[d] || []).push(f); }); });
   var top = Object.keys(doms).sort(function (x, y) { return doms[y].length - doms[x].length; }).slice(0, 5)
-    .map(function (d) { return [d, Math.round(n(doms[d], short) / doms[d].length * 100)]; });
-  var rates = top.map(function (d) { return d[1]; });
-  set('hDomLo', Math.min.apply(null, rates) + '%'); set('hDomHi', Math.max.apply(null, rates) + '%');
-  set('cDoms', top.map(function (d) { return d[0].toLowerCase() + ' ' + d[1] + '%'; }).join(', '));
+    .map(function (d) { return [dn(d).toLowerCase().replace(/^jailbreaks$/, 'jailbreak'), fx(n(doms[d], short), doms[d].length)]; });
+  var rateNum = function (r) { return parseFloat(r[1]); };
+  var hiR = Math.max.apply(null, top.map(rateNum)), loR = Math.min.apply(null, top.map(rateNum));
+  var namesAt = function (v) { return top.filter(function (r) { return rateNum(r) === v; }).map(function (r) { return r[0]; }); };
+  set('kfDomT', 'Among the five largest risk domains, the shortfall ranged from ' + loR.toFixed(1) + '% to ' + hiR.toFixed(1) + '%');
+  set('kfDomR', 'Among the five largest domains, the shortfall was highest for ' + namesAt(hiR).join(' and ') + ' findings (' + hiR.toFixed(1) +
+    '%) and lowest for ' + namesAt(loR).join(' and ') + ' findings (' + loR.toFixed(1) + '%' + (namesAt(loR).length > 1 ? ' each' : '') +
+    '). Because these groups are small and domain labels may overlap, we treat this pattern as descriptive rather than as evidence of a ' +
+    'difference between risk domains. A finding can appear in more than one domain.');
   var gov = C1.filter(function (f) { return f.scope === 'government-AISI'; });
   var tp = C1.filter(function (f) { return f.scope === 'third-party-evaluator'; });
-  set('cGovPct', pct(n(gov, none), gov.length)); set('cTpPct', pct(n(tp, none), tp.length));
-  set('cGovShort', pct(n(gov, short), gov.length)); set('cTpShort', pct(n(tp, short), tp.length));
-  set('hPolBind', n(T, function (f) { return f.pol === 'Binding policy action'; })); set('hPolN', T.length);
-  set('cPolNon', n(T, function (f) { return f.pol === 'Non-binding policy-related uptake'; }));
-  set('cPolNone', n(T, function (f) { return f.pol === 'No policy uptake identified'; }));
+  set('kfWhoT', 'The shortfall was ' + fx(n(gov, short), gov.length) + ' for findings from government institutes and ' +
+    fx(n(tp, short), tp.length) + ' for findings from third-party evaluators');
+  var polBind = n(T, function (f) { return f.pol === 'Binding policy action'; }),
+      polNon = n(T, function (f) { return f.pol === 'Non-binding policy-related uptake'; });
+  set('kfPolR', 'Of the ' + T.length + ' trackable evaluation findings, ' + (polBind + polNon) + ' (' + fx(polBind + polNon, T.length) +
+    ') had documented policy uptake. ' + polNon + ' appeared in at least one official policy record that created no mandatory obligation, ' +
+    'such as official statements, guidance, requests for information, recommendations, or research commitments. The one binding policy ' +
+    'action involved Anthropic\'s Fable 5 and Mythos 5: a US Department of Commerce export-control directive imposing mandatory access ' +
+    'restrictions on these models. The directive was not published, so this classification relies on Anthropic\'s public description.');
   var resp = T.filter(function (f) { return !none(f); });
-  set('hAttr', n(resp, function (f) { return f.attr === 'Explicit attribution'; }) + ' of ' + resp.length);
+  set('kfAttrT', n(resp, function (f) { return f.attr === 'Explicit attribution'; }) + ' of the ' + resp.length + ' located company responses had explicit attribution');
+  var lagN = function (a, fn) { return n(a, function (f) { return f.lag != null && fn(f.lag); }); };
+  var isB = function (l) { return l < 0; }, isS = function (l) { return l === 0; }, isL = function (l) { return l > 0; };
+  var respC = resp.filter(function (f) { return f.sev === 'C1'; }), preSub = pre.filter(subF);
+  set('kfTimeT', 'Of the ' + resp.length + ' trackable findings with a dated company response, ' + lagN(resp, isB) +
+    ' responses appeared before the effective finding date, ' + lagN(resp, isS) + ' on the same day, and ' + lagN(resp, isL) + ' later');
+  set('kfTimeR', 'Among the ' + respC.length + ' significant-risk responses, the corresponding counts were ' + lagN(respC, isB) + ' before, ' +
+    lagN(respC, isS) + ' same day, and ' + lagN(respC, isL) + ' afterward. For pre-deployment findings, ' +
+    lagN(preSub, function (l) { return l <= 0; }) + ' of ' + preSub.length + ' Substantive responses were public by the effective finding date. ' +
+    'This timing is consistent with coordinated disclosure.');
+  var exRow = function (v) { return v + ' (' + fx(v, C1.length) + ')'; };
+  set('exNo', exRow(n(C1, none))); set('exPr', exRow(n(C1, function (f) { return !short(f); })));
+  set('exUn', exRow(C1.length - n(C1, none) - n(C1, function (f) { return !short(f); })));
+  var c2all = T.filter(function (f) { return f.sev === 'C2'; });
+  set('vdR', 'Among trackable evaluation findings, ' + n(C1, none) + ' of ' + C1.length + ' significant-risk findings (' + fx(n(C1, none), C1.length) +
+    ') and ' + n(c2all, none) + ' of ' + c2all.length + ' low-risk findings (' + fx(n(c2all, none), c2all.length) +
+    ') had no located company response. The difference was not statistically significant at the 5% level (z = 1.64, p = 0.102).');
   set('kTier', M.trackable + ' of ' + M.totalFindings.toLocaleString());
-  set('kInst', M.institutions + ' evaluators');
   set('cTotal', M.totalFindings.toLocaleString()); set('cInsts', M.institutions);
 
   /* ── ranking charts ── */
@@ -1810,28 +1891,25 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var splitParts = function (a) { var t = n(a, function (f) { return f.track === 'yes'; }); return [t, a.length - t]; };
   var byLen = function (x, y) { return y.a.length - x.a.length; };
 
-  /* 1. companies by trackable findings, split by outcome */
-  var devs = group(T, function (f) { return f.dev; }).sort(byLen);
-  var devTop = devs.filter(function (d) { return d.a.length >= 4; });
-  var devRest = devs.filter(function (d) { return d.a.length < 4; });
-  var devRows = devTop.map(function (d) { return { label: d.k, parts: outParts(d.a), note: String(d.a.length) }; });
-  if (devRest.length) { var ra = [].concat.apply([], devRest.map(function (d) { return d.a; }));
-    devRows.push({ plain: true, label: devRest.length + ' others', parts: outParts(ra), note: String(ra.length) }); }
-  set('rkDevT', devs[0].k + ' and ' + devs[1].k + ' account for ' + (devs[0].a.length + devs[1].a.length) +
-    ' of the ' + T.length + ' trackable findings');
-  set('rkDevS', 'Companies ranked by trackable evaluation findings about their models, split by how the company responded.');
+  /* 1. developers by significant-risk trackable findings, split by outcome (paper Figure 8) */
+  var devs = group(C1, function (f) { return f.dev; }).sort(byLen);
+  var devRows = devs.map(function (d) { return { label: d.k, parts: outParts(d.a), note: String(d.a.length) }; });
+  var withProp = devs.filter(function (d) { return outParts(d.a)[2] > 0; }).map(function (d) { return d.k; });
+  set('rkDevT', devs[0].k + ' and ' + devs[1].k + ' had the most significant-risk findings' +
+    (withProp.length === 2 && withProp.indexOf(devs[0].k) > -1 && withProp.indexOf(devs[1].k) > -1
+      ? ' and were the only developers with proportionate public responses' : ''));
+  set('rkDevS', 'Public company response outcomes by developer for all ' + C1.length + ' significant-risk trackable findings.');
   legend('rkDevL', OUT); rank('rkDev', devRows, OUT);
 
-  /* 2. the same companies as shares, ranked by proportionate share */
+  /* 2. the same developers as shares */
   var shareRows = devs.filter(function (d) { return d.a.length >= 5; })
     .map(function (d) { var p = outParts(d.a); return { label: d.k + ' (n=' + d.a.length + ')', parts: p,
-      note: Math.round(p[0] / d.a.length * 100) + '% <small>none</small>', s: p[0] / d.a.length }; })
+      note: fx(d.a.length - p[2], d.a.length) + ' <small>short</small>', s: p[0] / d.a.length }; })
     .sort(function (x, y) { return x.s - y.s; });
-  var allNone = shareRows.filter(function (r) { return r.s === 1; }).length;
-  var nm = function (r) { return r.label.replace(/ \(.*/, ''); };
-  set('rkShareT', (allNone ? allNone + ' of ' + shareRows.length + ' companies left every finding without a response; ' : '') +
-    nm(shareRows[0]) + ' answered ' + Math.round((1 - shareRows[0].s) * 100) + '% of its findings, the highest share');
-  set('rkShareS', 'Share of each company\'s trackable findings by outcome, ranked by the share left without a response, lowest first. Companies with at least 5 findings.');
+  var silent = devs.filter(function (d) { return outParts(d.a)[0] === d.a.length; });
+  set('rkShareT', 'For ' + silent.length + ' of the ' + devs.length + ' developers, we located no public company response to any of their ' +
+    silent.reduce(function (t, d) { return t + d.a.length; }, 0) + ' significant-risk findings');
+  set('rkShareS', 'Share of each developer\'s significant-risk findings by outcome, with the shortfall rate. Developers with at least 5 findings.');
   legend('rkShareL', OUT); rank('rkShare', shareRows, OUT, true);
 
   /* 3. models, from the model-version tags */
@@ -1846,7 +1924,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var mods = group(F, function (f) { var seen = {};
     return f.tags.filter(function (t) { return MODEL_RE.test(t); }).map(normTag)
       .filter(function (t) { if (seen[t]) return false; seen[t] = 1; return true; }); }).sort(byLen).slice(0, 12);
-  set('rkModT', pretty(mods[0].k) + ', ' + pretty(mods[1].k) + ' and ' + pretty(mods[2].k) + ' are the top three model versions by findings');
+  set('rkModT', pretty(mods[0].k) + ', ' + pretty(mods[1].k) + ' and ' + pretty(mods[2].k) + ' are named in the largest number of findings');
   set('rkModS', 'Model versions ranked by findings that name them. Counts only the ' + tagged.length +
     ' findings tagged with a specific model version, so totals are a lower bound.');
   legend('rkModL', SPLIT);
@@ -1854,18 +1932,18 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 
   /* 4. risk areas */
   var doms2 = group(F, function (f) { return f.dom; }).sort(byLen).slice(0, 8);
-  set('rkDomT', doms2[0].k + ' and ' + doms2[1].k.toLowerCase() + ' dominate the risk areas studied');
-  set('rkDomS', 'Risk areas ranked by findings. A finding can sit in more than one area.');
+  set('rkDomT', doms2[0].k + ' and ' + doms2[1].k.toLowerCase() + ' are the descriptive risk domains with the largest number of findings');
+  set('rkDomS', 'All findings by descriptive risk domain. A finding can appear in more than one domain.');
   legend('rkDomL', SPLIT);
-  rank('rkDom', doms2.map(function (d) { return { plain: true, label: d.k, parts: splitParts(d.a), note: String(d.a.length) }; }), SPLIT);
+  rank('rkDom', doms2.map(function (d) { return { plain: true, label: dn(d.k), parts: splitParts(d.a), note: String(d.a.length) }; }), SPLIT);
 
   /* 5. evaluators by evaluations (reports) published */
   var insts = group(F, function (f) { return f.inst; });
   insts.forEach(function (d) { var r = {}; d.a.forEach(function (f) { r[f.rid || f.url || f.id] = 1; }); d.r = Object.keys(r).length; });
   var byRep = insts.slice().sort(function (x, y) { return y.r - x.r; }).slice(0, 12);
   var REP = [['Evaluation reports published', COL.maroon]];
-  set('rkRepT', byRep[0].k + ', ' + byRep[1].k + ' and ' + byRep[2].k + ' published more evaluations than any other evaluator');
-  set('rkRepS', 'Evaluators ranked by number of evaluation reports in the dataset (' + M.reports + ' reports from ' + M.institutions + ' evaluators).');
+  set('rkRepT', byRep[0].k + ', ' + byRep[1].k + ' and ' + byRep[2].k + ' have the largest number of reports in the dataset');
+  set('rkRepS', 'Reporting institutions ranked by number of evaluation reports (' + M.reports + ' reports across ' + M.institutions + ' reporting-institution labels, including joint evaluator labels).');
   legend('rkRepL', REP);
   rank('rkRep', byRep.map(function (d) { return { label: d.k.replace(/\s*\(.*\)\s*$/, ''), parts: [d.r], note: String(d.r) }; }), REP);
 
@@ -1873,39 +1951,41 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var byFind = insts.slice().sort(byLen).slice(0, 12);
   var topT = insts.slice().sort(function (x, y) { return splitParts(y.a)[0] - splitParts(x.a)[0]; })[0];
   var shortName = function (k) { return k.replace(/\s*\(.*\)\s*$/, ''); };
-  set('rkInstT', byFind[0].k === topT.k
-    ? shortName(topT.k) + ' leads on findings (' + byFind[0].a.length + ') and on findings a company could answer for (' + splitParts(topT.a)[0] + ')'
-    : shortName(byFind[0].k) + ' leads on findings (' + byFind[0].a.length + '); ' + shortName(topT.k) +
-      ' leads on findings a company could answer for (' + splitParts(topT.a)[0] + ')');
-  set('rkInstS', 'Evaluators ranked by findings, split into trackable findings (a named company could answer for them) and all others.');
+  set('rkInstT', shortName(byFind[0].k) + ', ' + shortName(byFind[1].k) + ' and ' + shortName(byFind[2].k) + ' contribute the most findings');
+  set('rkInstS', 'Reporting institutions ranked by findings, split into trackable evaluation findings and all others.');
   legend('rkInstL', SPLIT);
   rank('rkInst', byFind.map(function (d) { var p = splitParts(d.a);
     return { label: d.k.replace(/\s*\(.*\)\s*$/, ''), parts: p, note: d.a.length + ' <small>(' + p[0] + ')</small>' }; }), SPLIT);
 
   /* ── key findings, drawn live ── */
-  var pctNote = function (a) { return Math.round(n(a, isNone) / a.length * 100) + '% <small>none</small>'; };
-  var ACC = [['Pre-deployment', 'Before release'], ['Mixed', 'Before and after'], ['Post-deployment', 'After release']];
-  legend('kfAccessL', OUT);
-  rank('kfAccess', ACC.map(function (k) { var a = C1.filter(function (f) { return f.access === k[0]; });
-    return { plain: true, label: k[1] + ' (n=' + a.length + ')', tip: k[0] + ' access · ' + a.length + ' findings', parts: outParts(a), note: a.length ? pctNote(a) : '' }; })
-    .filter(function (r) { return r.parts.reduce(function (x, y) { return x + y; }, 0) > 0; }), OUT, true);
+  var ACT3 = [['None', COL.maroon], ['Partial or Acknowledged', COL.pink], ['Substantive', COL.cream]];
+  legend('kfAccessL', ACT3);
+  rank('kfAccess', ['Pre-deployment', 'Mixed', 'Post-deployment'].map(function (k) { var a = C1.filter(function (f) { return f.access === k; });
+    var no = n(a, isNone), su = n(a, subF);
+    return { plain: true, label: k + ' (n=' + a.length + ')', tip: k + ' · ' + a.length + ' significant-risk findings', parts: [no, a.length - no - su, su],
+      note: fx(su, a.length) + ' <small>substantive</small>' }; })
+    .filter(function (r) { return r.parts.reduce(function (x, y) { return x + y; }, 0) > 0; }), ACT3, true);
+
+  rank('kfTime', [['Before the finding date', lagN(resp, isB)], ['Same day', lagN(resp, isS)], ['Later', lagN(resp, isL)]].map(function (r) {
+    return { plain: true, label: r[0], parts: [r[1]], note: r[1] + ' <small>(' + pc1(r[1], resp.length) + ')</small>' }; }),
+    [['of ' + resp.length + ' dated company responses', COL.maroon]]);
 
   legend('kfDomL', OUT);
-  rank('kfDom', group(T, function (f) { return f.dom; }).sort(byLen).slice(0, 7).map(function (d) {
-    return { plain: true, label: d.k + ' (n=' + d.a.length + ')', tip: d.k + ' · ' + d.a.length + ' findings', parts: outParts(d.a),
-      note: Math.round(n(d.a, short) / d.a.length * 100) + '% <small>short</small>' }; }), OUT, true);
+  rank('kfDom', group(C1, function (f) { return f.dom; }).sort(byLen).map(function (d) {
+    return { plain: true, label: dn(d.k) + ' (n=' + d.a.length + ')', tip: dn(d.k) + ' · ' + d.a.length + ' significant-risk findings', parts: outParts(d.a),
+      note: fx(n(d.a, short), d.a.length) + ' <small>short</small>' }; }), OUT, true);
 
   legend('kfWhoL', OUT);
   rank('kfWho', [['Government institutes', gov], ['Third-party evaluators', tp]].map(function (k) {
     return { plain: true, label: k[0] + ' (n=' + k[1].length + ')', tip: k[0] + ' · ' + k[1].length + ' findings', parts: outParts(k[1]),
-      note: Math.round(n(k[1], short) / k[1].length * 100) + '% <small>short</small>' }; }), OUT, true);
+      note: fx(n(k[1], short), k[1].length) + ' <small>short</small>' }; }), OUT, true);
 
   var ONE = [['of ' + T.length + ' trackable findings', COL.maroon]];
   var oneRows = function (rows) { return rows.map(function (r) {
     return { plain: true, label: r[0], parts: [r[1]], note: r[1] + ' <small>(' + pc1(r[1], T.length) + ')</small>' }; }); };
   var polN = function (k) { return n(T, function (f) { return f.pol === k; }); };
   rank('kfPol', oneRows([['Binding policy action', polN('Binding policy action')],
-    ['Non-binding uptake', polN('Non-binding policy-related uptake')], ['No policy uptake', polN('No policy uptake identified')]]), ONE);
+    ['Non-binding policy uptake', polN('Non-binding policy-related uptake')], ['No policy uptake identified', polN('No policy uptake identified')]]), ONE);
   var expl = n(resp, function (f) { return f.attr === 'Explicit attribution'; });
   rank('kfAttr', oneRows([['Explicit attribution', expl], ['No explicit attribution', resp.length - expl],
     ['No response located', T.length - resp.length]]), ONE);
@@ -1918,7 +1998,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     var ys = Object.keys(yrs).sort(), W = 520, H = 250, L = 44, R = 22, Tp = 26, B = 34;
     var x = function (i) { return L + 26 + (ys.length === 1 ? 0 : i * (W - L - R - 26) / (ys.length - 1)); };
     var y = function (v) { return Tp + (1 - v) * (H - Tp - B); };
-    var ser = [['Fell short of proportionate', short, COL.maroon, ''], ['No response at all', isNone, '#7d7d7d', '5 4']];
+    var ser = [['No proportionate response', short, COL.maroon, ''], ['No located response', isNone, '#7d7d7d', '5 4']];
     var g = '';
     [0, .25, .5, .75, 1].forEach(function (v) {
       g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--grid)"/>' +
@@ -1947,7 +2027,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   /* live proportionality matrix: severity by action level */
   (function () {
     var ACTS = ['Substantive', 'Partial', 'Acknowledged', 'None'];
-    var SEVS = [['C1', 'Significant risk'], ['C2', 'Low risk']];
+    var SEVS = [['C1', 'Significant-risk'], ['C2', 'Low-risk']];
     var html = '<span></span>' + ACTS.map(function (a) { return '<span class="mx-h">' + a + '</span>'; }).join('');
     SEVS.forEach(function (sv) {
       var row = T.filter(function (f) { return f.sev === sv[0]; });
@@ -1955,7 +2035,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       ACTS.forEach(function (a) {
         var cell = row.filter(function (f) { return a === 'None' ? isNone(f) : f.action === a; });
         var p = outParts(cell), k = p.lastIndexOf(Math.max.apply(null, p));
-        var lab = ['No response', 'Too weak', 'Matched the risk'][k], bg = [COL.maroon, COL.pink, COL.cream][k];
+        var lab = ['No response', 'Under-response', 'Proportionate'][k], bg = [COL.maroon, COL.pink, COL.cream][k];
         var rows = OUT.map(function (o, i) { return [o[1], p[i], o[0], 0]; }).filter(function (r) { return r[1] > 0; });
         if (p[2] && p[1]) rows.push(['', '', 'Under-response here: not explicitly attributed to the finding', 0]);
         html += '<span class="mx-c' + (k === 0 && cell.length ? ' dark' : '') + '" style="background:' + (cell.length ? bg : 'var(--paper-2)') + '"' +
@@ -1963,16 +2043,16 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           '</b><small>' + pc1(cell.length, row.length) + ' of these</small><em>' + (cell.length ? lab : '&nbsp;') + '</em></span>'; });
     });
     $('mx').innerHTML = html;
-    legend('mxL', [['Response matched the risk', COL.cream], ['Response too weak for the risk', COL.pink], ['No response found', COL.maroon]]);
+    legend('mxL', [['Proportionate', COL.cream], ['Under-response', COL.pink], ['No response', COL.maroon]]);
     legend('vdL', OUT);
     var c1 = T.filter(function (f) { return f.sev === 'C1'; }), c2 = T.filter(function (f) { return f.sev === 'C2'; });
-    set('mxT', n(c1, isNone) + ' of ' + c1.length + ' significant-risk findings drew no response; ' +
-      n(c1, function (f) { return f.action === 'Substantive'; }) + ' drew a substantive one');
-    set('vdT', Math.round(n(c1, short) / c1.length * 100) + '% of significant-risk and ' +
-      Math.round(n(c2, short) / c2.length * 100) + '% of low-risk findings fell short of a proportionate response');
+    set('mxT', n(c1, isNone) + ' of ' + c1.length + ' significant-risk findings had no located company response; ' +
+      n(c1, function (f) { return f.action === 'Substantive'; }) + ' had a substantive one');
+    set('vdT', fx(n(c1, short), c1.length) + ' of significant-risk and ' + fx(n(c2, short), c2.length) +
+      ' of low-risk trackable findings lacked a proportionate response');
     rank('vd', SEVS.map(function (sv) { var a = T.filter(function (f) { return f.sev === sv[0]; });
       return { plain: true, label: sv[1] + ' (n=' + a.length + ')', tip: sv[1] + ' · ' + a.length + ' findings', parts: outParts(a),
-        note: Math.round(n(a, short) / a.length * 100) + '% <small>short</small>' }; }), OUT, true);
+        note: fx(n(a, short), a.length) + ' <small>short</small>' }; }), OUT, true);
   })();
 
   /* ── what the dataset contains ── */
@@ -1982,8 +2062,8 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         note: a.length + ' <small>(' + pc1(a.length, all) + ')</small>' }; };
     var tr = n(F, function (f) { return f.track === 'yes'; }),
         nt = n(F, function (f) { return f.evalT === 'yes' && f.track !== 'yes'; }), ne = all - tr - nt;
-    set('cpTierT', tr + ' of ' + all.toLocaleString() + ' findings are trackable and scored for a company response');
-    rank('cpTier', [['Trackable findings', tr], ['Non-trackable findings', nt], ['Non-empirical findings', ne]]
+    set('cpTierT', tr + ' of ' + all.toLocaleString() + ' findings are trackable evaluation findings and enter the company-response analysis');
+    rank('cpTier', [['Trackable evaluation', tr], ['Non-trackable evaluation', nt], ['Non-empirical', ne]]
       .map(function (r) { return { plain: true, label: r[0], parts: [r[1]], note: r[1] + ' <small>(' + pc1(r[1], all) + ')</small>' }; }),
       [['of ' + all.toLocaleString() + ' findings', COL.maroon]]);
     $('cpTier').querySelectorAll('.rk-row').forEach(function (r, i) { var b = r.querySelector('.rk-bar i');
@@ -1994,39 +2074,38 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         [[segName, COL.maroon]]);
       if (cols) $(id).querySelectorAll('.rk-row').forEach(function (r, i) { var b = r.querySelector('.rk-bar i'); if (b) b.style.background = cols[i]; }); };
     var sevA = function (k) { return F.filter(function (f) { return f.sev === k; }); };
-    set('sevT', sevA('C1').length + ' of ' + all.toLocaleString() + ' findings are significant-risk, and ' +
-      n(sevA('C1'), function (f) { return f.track === 'yes'; }) + ' of those are trackable');
+    set('sevT', sevA('C1').length + ' of ' + all.toLocaleString() + ' findings are significant-risk; ' +
+      n(sevA('C1'), function (f) { return f.track === 'yes'; }) + ' of them are trackable evaluation findings');
     legend('sevL', SPLIT);
-    rank('sevC', [row('Significant risk', sevA('C1')), row('Low risk', sevA('C2'))], SPLIT);
-    var co = n(T, function (f) { return !isNone(f); }), po = n(T, function (f) { return /uptake$|action$/.test(f.pol) && !/^No /.test(f.pol); }),
-        pu = n(T, function (f) { return !!f.cVerb; });
-    set('chT', 'A company response was located for ' + co + ' of ' + T.length + ' trackable findings');
-    one('chC', [['Company response located', co], ['Cited in an official policy record', po], ['Public coverage located', pu]],
+    rank('sevC', [row('Significant-risk', sevA('C1')), row('Low-risk', sevA('C2'))], SPLIT);
+    var co = n(T, function (f) { return !isNone(f); }), po = n(T, function (f) { return /uptake$|action$/.test(f.pol) && !/^No /.test(f.pol); });
+    set('chT', 'A public company response was located for ' + co + ' of ' + T.length + ' trackable evaluation findings; ' + po + ' had documented policy uptake');
+    one('chC', [['Company response located', co], ['Documented policy uptake', po]],
       T.length, 'of ' + T.length + ' trackable findings');
     var actN = function (k) { return n(T, function (f) { return k === 'None' ? isNone(f) : f.action === k; }); };
-    set('actT', actN('Substantive') + ' of ' + T.length + ' trackable findings drew a substantive response; ' + actN('None') + ' drew none');
+    set('actT', actN('Substantive') + ' of ' + T.length + ' trackable evaluation findings had a Substantive response; ' + actN('None') + ' had none located');
     one('actC', ['Substantive', 'Partial', 'Acknowledged', 'None'].map(function (k) { return [k, actN(k)]; }),
       T.length, 'of ' + T.length + ' trackable findings', [COL.cream, COL.pink, COL.pink, COL.maroon]);
 
-    var ACCS = [['Post-deployment', 'After release'], ['Pre-deployment', 'Before release'], ['Mixed', 'Before and after'], ['N/A', 'Not applicable']];
+    var ACCS = [['Post-deployment', 'Post-deployment'], ['Pre-deployment', 'Pre-deployment'], ['Mixed', 'Mixed'], ['N/A', 'Not disclosed']];
     var accA = function (k) { return F.filter(function (f) { return f.access === k; }); };
-    set('cpAccT', pct(accA('Post-deployment').length, all) + ' of findings come from evaluations run after release');
+    set('cpAccT', pct(accA('Post-deployment').length, all) + ' of all findings came from post-deployment testing');
     legend('cpAccL', SPLIT);
     rank('cpAcc', ACCS.map(function (k) { return row(k[1], accA(k[0]), k[0] + ' access'); }), SPLIT);
 
     var ys = group(F, function (f) { return (f.date || '').slice(0, 4); }).sort(function (x, y) { return x.k < y.k ? -1 : 1; });
     var last2 = ys.slice(-2), l2 = last2.reduce(function (t, d) { return t + d.a.length; }, 0);
-    set('cpYearT', pct(l2, all) + ' of findings were published in ' + last2.map(function (d) { return d.k; }).join(' or '));
+    set('cpYearT', pct(l2, all) + ' of findings in the dataset were published in ' + last2.map(function (d) { return d.k; }).join(' or '));
     legend('cpYearL', SPLIT);
     rank('cpYear', ys.map(function (d) { return row(d.k, d.a); }), SPLIT);
 
     var govA = F.filter(function (f) { return f.scope === 'government-AISI'; }), tpA = F.filter(function (f) { return f.scope === 'third-party-evaluator'; });
-    set('cpWhoT', 'Third-party evaluators produced ' + pct(tpA.length, all) + ' of findings');
+    set('cpWhoT', 'Third-party evaluators account for ' + fx(tpA.length, all) + ' of findings and government institutes for ' + fx(govA.length, all));
     legend('cpWhoL', SPLIT);
     rank('cpWho', [row('Third-party', tpA, 'Third-party evaluators'), row('Government', govA, 'Government institutes')], SPLIT);
   })();
 
-  var through = 'Kunal Singh | Data through '  + mon(M.dateMax);
+  var through = 'Kunal Singh, Max Kamachee, Jonas Raedler, Stephen Casper | November 2026';
   document.querySelectorAll('.postmeta').forEach(function (e) { e.textContent = through; });
   set('fAsOf', M.totalFindings.toLocaleString() + ' findings · ' + M.reports + ' reports · ' +
     mon(M.dateMin) + ' to ' + mon(M.dateMax));
