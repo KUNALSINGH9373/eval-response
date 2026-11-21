@@ -719,7 +719,7 @@ figcaption { font-size:.95rem; max-width:92ch; }
 .insight strong { color:var(--ink); font-weight:650; display:block; margin-bottom:4px; }
 
 /* "go deeper" cards */
-.dgrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.dgrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
 @media (max-width:860px){ .dgrid{ grid-template-columns:1fr; } }
 .dcard { border:1px solid var(--rule); border-radius:var(--r); padding:22px; background:var(--paper);
   display:flex; flex-direction:column; gap:10px; }
@@ -841,7 +841,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <a class="mark" href="#results" data-go="results" title="Do frontier AI developers act on third-party risk findings?"><i></i>Evaluating the Evaluators</a>
     <div class="tabs" role="tablist">
       <button role="tab" data-tab="results" aria-selected="true">Results</button>
-      <button role="tab" data-tab="problem" aria-selected="false">Problem</button>
       <button role="tab" data-tab="method" aria-selected="false">Methodology</button>
       <button role="tab" data-tab="data" aria-selected="false">Data</button>
       <span class="spacer"></span>
@@ -870,7 +869,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         <div class="actions">
           <a class="btn primary" href="#data" data-go="data">Explore the data</a>
           <a class="btn" href="#method" data-go="method">Read the methodology</a>
-          <a class="btn" href="#problem" data-go="problem">The problem</a>
         </div>
         <div class="meta tnum">
           <span><b id="mFindings">—</b> findings</span>
@@ -1124,12 +1122,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       <div class="sechead"><div><h2>Go deeper</h2></div></div>
       <div class="dgrid">
         <div class="dcard">
-          <h3>The problem</h3>
-          <p>The question this dataset asks, why it looks only at the public record, and what it
-            does not measure.</p>
-          <a class="btn dark" href="#problem" data-go="problem">Read the problem</a>
-        </div>
-        <div class="dcard">
           <h3>Methodology</h3>
           <p>What counts as a finding, when a response is owed, the eight severity domains, the
             three evidence searches and the proportionality lookup.</p>
@@ -1144,53 +1136,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       </div>
     </section>
 
-  </div>
-</div>
-
-<!-- ══ PROBLEM ══════════════════════════════════════════════════════════ -->
-<div class="panel" id="p-problem">
-  <div class="wrap" style="max-width:900px">
-    <div class="phead">
-      <h1>The problem</h1>
-      <p class="lede">Frontier AI evaluations have become a prominent part of AI governance.
-        What happens to their findings has not been measured.</p>
-      <div class="postmeta"></div>
-    </div>
-    <div style="max-width:74ch">
-      <div class="step2">
-        <h3>The question</h3>
-        <p>When a government or independent evaluator publishes a risk-relevant finding about a
-          <strong>named frontier system</strong>, does the public record document action
-          <strong>attributed to that finding</strong> and <strong>directed at mitigating the
-          identified risk</strong>?</p>
-        <div class="detail">Each clause narrows it. <em>Named frontier system</em> excludes
-          findings with no identifiable party to answer them. <em>Attributed to that finding</em>
-          excludes standing policy that happens to share a topic. <em>Directed at mitigating the
-          risk</em> excludes acknowledgement that changes nothing.</div>
-      </div>
-
-      <div class="step2">
-        <h3>Why the public record</h3>
-        <p>A company may act privately or tell the evaluator directly. None of that is visible
-          here, by construction. What this measures is the record a regulator, journalist or
-          researcher can verify from outside.</p>
-      </div>
-
-      <div class="step2">
-        <h3>What this does not measure</h3>
-        <ul>
-          <li><strong>Private action.</strong> A fix made without public comment is invisible to
-            this method.</li>
-          <li><strong>Effect.</strong> A substantive response means a documented change was
-            published — not that it was implemented well, or that it worked.</li>
-          <li><strong>Recency.</strong> Findings published near the cutoff may not have had time
-            to draw a response. Outcomes are reported by year so this stays visible.</li>
-        </ul>
-        <div class="detail"><strong>Absence is measured, not assumed.</strong> &ldquo;No
-          response&rdquo; means all three evidence searches were run and logged with a date — not
-          that nobody looked.</div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1505,7 +1450,6 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       <h5>Explore</h5>
       <ul>
         <li><a href="#results" data-go="results">Results</a></li>
-        <li><a href="#problem" data-go="problem">The problem</a></li>
         <li><a href="#method" data-go="method">Methodology</a></li>
         <li><a href="#data" data-go="data">Data</a></li>
       </ul>
@@ -1524,15 +1468,15 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795240630"></script>
-<script src="app.js?v=1795240630"></script>
+<script src="data.js?v=1795240881"></script>
+<script src="app.js?v=1795240881"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795240630"></script>
+<script type="module" src="tags3d.js?v=1795240881"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
 (function () {
-  var panels = { results:'p-results', problem:'p-problem', data:'p-data', method:'p-method' };
+  var panels = { results:'p-results', data:'p-data', method:'p-method' };
 
   /* A chart in a hidden panel measures clientWidth 0, so revealing one needs a
      re-render. app.js listens on resize and rebuilds EVERY chart on the site, which
