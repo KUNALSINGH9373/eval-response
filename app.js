@@ -628,7 +628,7 @@ const charts = [
         c.segs.reduce((a, x) => a + x.value, 0)])],
   },
   {
-    title: "Most-evaluated models",
+    title: "Top evaluated models",
     sub: `Findings per named model, from finding-level tags · ${modelStats.length} distinct named models in the dataset`,
     wide: false,
     render(mount) { renderHBars(mount, modelRows, "--magenta", "Findings", true); },

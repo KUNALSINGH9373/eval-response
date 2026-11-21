@@ -916,7 +916,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <h3>Findings published after a model's release mostly got no response:
             <span id="hPostNone"></span>, against <span id="hPreNone"></span> for findings shared before release</h3>
           <div class="cklegend" id="kfAccessL"></div><div class="rank" id="kfAccess"></div>
-          <p class="ckread"><b>How to read it:</b> each bar is all the significant-risk findings from one stage of access, split by how the
+          <p class="ckread">Each bar is all the significant-risk findings from one stage of access, split by how the
             company responded. When evaluators tested a model before release, companies almost
             always answered (<span id="cPreN"></span> findings). When the evaluation came after
             release, most findings went unanswered (<span id="cPostN"></span> findings).
@@ -927,7 +927,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <span class="cktag tag t-time">Change over time</span>
           <h3>Responses have not clearly improved: <span id="hYears"></span> of findings fell short</h3>
           <div class="cklegend" id="kfYearL"></div><div class="rank" id="kfYear"></div>
-          <p class="ckread"><b>How to read it:</b> the solid line is the share of each year's significant-risk findings where the response
+          <p class="ckread">The solid line is the share of each year's significant-risk findings where the response
             fell short. The dashed line is the share with no response at all. The latest year looks
             better partly because those findings are recent and companies have had less time to
             respond.</p>
@@ -937,7 +937,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <span class="cktag tag t-domain">Risk area</span>
           <h3>The shortfall appears in every major risk area, from <span id="hDomLo"></span> to <span id="hDomHi"></span></h3>
           <div class="cklegend" id="kfDomL"></div><div class="rank" id="kfDom"></div>
-          <p class="ckread"><b>How to read it:</b> each bar is one risk area's findings, split by how the company responded. Share where the
+          <p class="ckread">Each bar is one risk area's findings, split by how the company responded. Share where the
             response fell short: <span id="cDoms"></span>. The gap is not caused by one research
             topic. This chart covers all <span id="cTrack"></span> trackable findings, and a finding
             can sit in more than one area.</p>
@@ -949,7 +949,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
             (<span id="cGovPct"></span> against <span id="cTpPct"></span> with no response), but most
             responses to both fall short</h3>
           <div class="cklegend" id="kfWhoL"></div><div class="rank" id="kfWho"></div>
-          <p class="ckread"><b>How to read it:</b> each bar splits one evaluator type's significant-risk findings into no response,
+          <p class="ckread">Each bar splits one evaluator type's significant-risk findings into no response,
             under-response and proportionate. Responses fell short for <span id="cGovShort"></span>
             of government-institute findings and <span id="cTpShort"></span> of third-party findings.</p>
           <button class="more figbtn" type="button" data-figsrc="charts/12_evaluator_scope.jpg" data-figalt="Outcome mix by evaluator type.">View the paper figure &rarr;</button>
@@ -958,7 +958,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <span class="cktag tag t-policy">Government follow-up</span>
           <h3>Only <span id="hPolBind"></span> of <span id="hPolN"></span> findings led to binding government action</h3>
           <div class="cklegend" id="kfPolL"></div><div class="rank" id="kfPol"></div>
-          <p class="ckread"><b>How to read it:</b> each bar counts trackable findings by the strongest official policy record that cites them.
+          <p class="ckread">Each bar counts trackable findings by the strongest official policy record that cites them.
             <span id="cPolNon"></span> were cited in non-binding records such as reports or hearings,
             and <span id="cPolNone"></span> were not cited at all. Government follow-up is counted
             separately and never stands in for a company response.</p>
@@ -968,7 +968,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <span class="cktag tag t-attr">Credit to the evaluator</span>
           <h3>When companies do respond, <span id="hAttr"></span> responses name the evaluator's finding</h3>
           <div class="cklegend" id="kfAttrL"></div><div class="rank" id="kfAttr"></div>
-          <p class="ckread"><b>How to read it:</b> the first two bars are findings that drew a company response, split by whether the company
+          <p class="ckread">The first two bars are findings that drew a company response, split by whether the company
             explicitly tied it to the finding. The third bar is findings with no response. A
             response only counts as proportionate when it is explicitly attributed.</p>
           <button class="more figbtn" type="button" data-figsrc="charts/18_attribution_distribution.jpg" data-figalt="Whether company responses name the evaluator's finding.">View the paper figure &rarr;</button>
@@ -1145,7 +1145,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
         <button class="rcard" type="button" data-fig>
           <span class="thumb"><img loading="lazy" src="charts/03_findings_per_access_type.jpg" alt="Findings per access type."></span>
           <span class="rmeta"><span class="tag t-corpus">Access</span> · all findings</span>
-          <span class="rtitle">Most evaluation happens after release</span>
+          <span class="rtitle">Evaluation mainly happens after release</span>
           <span class="rdesc">Pre-deployment access covers a
             small share of the corpus, which is precisely what makes it a policy lever rather than a
             description of how things already are.</span>
@@ -1584,10 +1584,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795239360"></script>
-<script src="app.js?v=1795239360"></script>
+<script src="data.js?v=1795239523"></script>
+<script src="app.js?v=1795239523"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795239360"></script>
+<script type="module" src="tags3d.js?v=1795239523"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1928,8 +1928,8 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var allNone = shareRows.filter(function (r) { return r.s === 1; }).length;
   var nm = function (r) { return r.label.replace(/ \(.*/, ''); };
   set('rkShareT', (allNone ? allNone + ' of ' + shareRows.length + ' companies left every finding without a response; ' : '') +
-    nm(shareRows[0]) + ' responded to the most (' + Math.round((1 - shareRows[0].s) * 100) + '% of its findings)');
-  set('rkShareS', 'Share of each company\'s trackable findings by outcome, ranked from fewest to most left without a response. Companies with at least 5 findings.');
+    nm(shareRows[0]) + ' answered ' + Math.round((1 - shareRows[0].s) * 100) + '% of its findings, the highest share');
+  set('rkShareS', 'Share of each company\'s trackable findings by outcome, ranked by the share left without a response, lowest first. Companies with at least 5 findings.');
   legend('rkShareL', OUT); rank('rkShare', shareRows, OUT, true);
 
   /* 3. models, from the model-version tags */
@@ -1944,7 +1944,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var mods = group(F, function (f) { var seen = {};
     return f.tags.filter(function (t) { return MODEL_RE.test(t); }).map(normTag)
       .filter(function (t) { if (seen[t]) return false; seen[t] = 1; return true; }); }).sort(byLen).slice(0, 12);
-  set('rkModT', pretty(mods[0].k) + ', ' + pretty(mods[1].k) + ' and ' + pretty(mods[2].k) + ' are the most evaluated model versions');
+  set('rkModT', pretty(mods[0].k) + ', ' + pretty(mods[1].k) + ' and ' + pretty(mods[2].k) + ' are the top three model versions by findings');
   set('rkModS', 'Model versions ranked by findings that name them. Counts only the ' + tagged.length +
     ' findings tagged with a specific model version, so totals are a lower bound.');
   legend('rkModL', SPLIT);
@@ -1952,7 +1952,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 
   /* 4. risk areas */
   var doms2 = group(F, function (f) { return f.dom; }).sort(byLen).slice(0, 8);
-  set('rkDomT', doms2[0].k + ' and ' + doms2[1].k.toLowerCase() + ' are the most studied risk areas');
+  set('rkDomT', doms2[0].k + ' and ' + doms2[1].k.toLowerCase() + ' dominate the risk areas studied');
   set('rkDomS', 'Risk areas ranked by findings. A finding can sit in more than one area.');
   legend('rkDomL', SPLIT);
   rank('rkDom', doms2.map(function (d) { return { plain: true, label: d.k, parts: splitParts(d.a), note: String(d.a.length) }; }), SPLIT);
@@ -1962,7 +1962,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   insts.forEach(function (d) { var r = {}; d.a.forEach(function (f) { r[f.rid || f.url || f.id] = 1; }); d.r = Object.keys(r).length; });
   var byRep = insts.slice().sort(function (x, y) { return y.r - x.r; }).slice(0, 12);
   var REP = [['Evaluation reports published', COL.maroon]];
-  set('rkRepT', byRep[0].k + ', ' + byRep[1].k + ' and ' + byRep[2].k + ' published the most evaluations');
+  set('rkRepT', byRep[0].k + ', ' + byRep[1].k + ' and ' + byRep[2].k + ' published more evaluations than any other evaluator');
   set('rkRepS', 'Evaluators ranked by number of evaluation reports in the dataset (' + M.reports + ' reports from ' + M.institutions + ' evaluators).');
   legend('rkRepL', REP);
   rank('rkRep', byRep.map(function (d) { return { label: d.k.replace(/\s*\(.*\)\s*$/, ''), parts: [d.r], note: String(d.r) }; }), REP);
@@ -1972,9 +1972,9 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   var topT = insts.slice().sort(function (x, y) { return splitParts(y.a)[0] - splitParts(x.a)[0]; })[0];
   var shortName = function (k) { return k.replace(/\s*\(.*\)\s*$/, ''); };
   set('rkInstT', byFind[0].k === topT.k
-    ? shortName(topT.k) + ' produced the most findings (' + byFind[0].a.length + ') and the most a company could answer for (' + splitParts(topT.a)[0] + ')'
-    : shortName(byFind[0].k) + ' produced the most findings (' + byFind[0].a.length + '); ' + shortName(topT.k) +
-      ' produced the most a company could answer for (' + splitParts(topT.a)[0] + ')');
+    ? shortName(topT.k) + ' leads on findings (' + byFind[0].a.length + ') and on findings a company could answer for (' + splitParts(topT.a)[0] + ')'
+    : shortName(byFind[0].k) + ' leads on findings (' + byFind[0].a.length + '); ' + shortName(topT.k) +
+      ' leads on findings a company could answer for (' + splitParts(topT.a)[0] + ')');
   set('rkInstS', 'Evaluators ranked by findings, split into trackable findings (a named company could answer for them) and all others.');
   legend('rkInstL', SPLIT);
   rank('rkInst', byFind.map(function (d) { var p = splitParts(d.a);
