@@ -805,6 +805,14 @@ function renderSankey() {
   /* Redraw only when the container width or theme really changed: some browsers fire resize
      while scrolling, and a redraw on each one makes the diagram jump. */
   const wNow = mount.clientWidth, thNow = root.dataset.theme || "";
+  /* A hidden tab measures 0 wide. Drawing then would lay the diagram out at the 560px minimum
+     and CSS would stretch it to full width later, which is the "crunched" look. Wait instead:
+     the observer below redraws as soon as the mount has a real width again. */
+  if (!renderSankey.ro && window.ResizeObserver) {
+    renderSankey.ro = new ResizeObserver(() => renderSankey());
+    renderSankey.ro.observe(mount);
+  }
+  if (wNow < 50) return;
   if (mount.querySelector("svg") && Math.abs(wNow - (renderSankey.w || 0)) < 8 && thNow === renderSankey.th) return;
   renderSankey.w = wNow; renderSankey.th = thNow;
   const { nodes, links, cols } = sankeyModel();
