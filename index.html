@@ -763,6 +763,7 @@ figcaption { font-size:.95rem; max-width:92ch; }
   background:var(--c-cream) !important; color:#111 !important; box-shadow:none; }
 #p-method .deflist.bordered dd { background:transparent !important; }
 #p-method li[class^="r-"] { border:1px solid rgba(0,0,0,.6); border-radius:0; padding:11px 16px; }
+#p-method .domain { align-items:center; } #p-method .mx-c { display:flex; align-items:center; justify-content:center; min-height:64px; }
 #p-method li[class^="r-"] strong, #p-method td[class^="cell-"] .detail { color:inherit !important; }
 #p-method td[class^="cell-"] { border-right:1px solid var(--rule); }
 #p-method .detail { border-left-color:var(--accent); }
@@ -1166,259 +1167,263 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   <div class="wrap" style="max-width:960px">
     <div class="phead">
       <h1>Methodology</h1>
-      <p class="lede">The outcome for each finding is derived, never judged. Two coded columns decide
-        whether a response is owed, an ensemble decides how serious it is, a fixed search decides
-        whether a response exists — and the verdict is a formula over those inputs.</p>
+      <p class="lede">How the findings were collected, classified and traced to company, policy
+        and public responses. This page follows Section 3 of the paper.</p>
       <div class="postmeta"></div>
     </div>
 
-
-    <section class="msec" id="s-scope">
-      <h2 class="mhead"><span>01</span>What counts as a finding</h2>
+    <section class="msec" id="s-tool">
+      <h2 class="mhead"><span>01</span>Tooling and human oversight</h2>
       <div class="sub" data-active>
       <div class="step2">
-        <h3>Three tests, all of which must hold</h3>
-        <ol>
-          <li><strong>Asserted by the evaluator</strong> — not a summary of someone else's work, not a comparator score cited in passing.</li>
-          <li><strong>Evidence-backed in that report</strong> — a measured result, an observed behaviour, or a documented process fact. Opinions, recommendations and plans are not findings.</li>
-          <li><strong>Independently codeable</strong> — it would warrant its own response on its own terms.</li>
-        </ol>
+        <p>We used agent-assisted search to check the organizations' research, publication, and
+          blog pages, with website sitemaps and archived copies where needed. The search also
+          included arXiv links listed on those pages or cited in included reports. LLM-based agents
+          then screened the publications and extracted findings. They also ran three separate
+          searches for evidence of a response: from the company, in policy records, and in public
+          coverage.</p>
+        <p>We used custom scripts to clean the data, cross-check the coded fields, and compute
+          every statistic in the paper. <strong>Two authors independently reviewed all
+          findings</strong>, including eligibility, coding, annotations, and response evidence.</p>
+      </div>
+      </div>
+    </section>
+
+    <section class="msec" id="s-scope">
+      <h2 class="mhead"><span>02</span>Initial data collection and scope</h2>
+      <div class="sub" data-active>
+      <div class="step2">
+        <h3>Evaluator set and eligible reports</h3>
+        <p>Our evaluator set comprises 46 organizations drawn from three sources: members of the
+          International Network for Advanced AI Measurement, Evaluation and Science; members of the
+          AI Evaluator Forum and other evaluators that publish frontier model findings; and
+          evaluators named in frontier developers' reports. We collected 6,684 publication records
+          from these organizations' websites, publication indexes, and research pages.</p>
+        <p>An evaluation report or paper was eligible if it named the evaluator and the tested
+          system and described its methods and results in enough detail to support at least one
+          evidence-backed finding. We screened most records by title and abstract, and read the
+          full document only when those were not enough.</p>
       </div>
       <div class="step2">
-        <h3>What is deliberately excluded</h3>
+        <h3>The unit of analysis is a finding</h3>
+        <p>A finding is one discrete, evidence-backed claim that can be coded on its own. A report
+          can contain several findings. Any model from a frontier developer was eligible,
+          regardless of model size; the frontier-developer list comprises 14 developers.</p>
         <ul>
-          <li><strong>Company self-reports.</strong> A developer writing about its own models has nobody to respond to. One exception is load-bearing: where a named external evaluator contributes a section to a company system card, that section is in scope and is filed under the evaluator, never the company.</li>
-          <li><strong>Ordinary accuracy and hallucination.</strong> That literature is enormous and was never censused here, so admitting a slice of it would make the corpus incomplete by its own standard.</li>
-          <li><strong>Non-frontier subjects.</strong> The finding must concern a named frontier model or AI system, not general machine learning.</li>
-          <li><strong>Unverifiable sources.</strong> Every number and quote is checked against the document it cites.</li>
+          <li>Findings about anonymized systems were included only when the report described those
+            systems as frontier or an advanced system.</li>
+          <li>We excluded evaluation reports in which a developer tested its own model, unless a
+            named external evaluator took part in the system evaluation.</li>
+          <li>We excluded models that an evaluator built or modified for its own study.</li>
         </ul>
+        <div class="detail">There was no defined starting timeline for the analysis.
+          <strong>17 March 2023</strong> is the date of the earliest eligible report, and the final
+          search for eligible findings was conducted on <strong>29 August 2026</strong>. These
+          reports yielded <strong>1,120 distinct findings</strong>, each recorded as a separate
+          dataset entry.</div>
       </div>
       </div>
     </section>
 
     <section class="msec" id="s-tier">
-      <h2 class="mhead"><span>02</span>Is a response owed?</h2>
+      <h2 class="mhead"><span>03</span>Corpus composition and identifying trackable findings</h2>
       <div class="sub" data-active>
       <div class="step2">
-        <h3>Every finding sits in exactly one group</h3>
-        <p>The group is not a label anyone writes. It is <strong>derived</strong> from two coded
-          columns, <code>Eval? (trackable)</code> and <code>Action Trackable?</code>, so it can
-          never drift from the evidence that produced it.</p>
+        <h3>Model access type</h3>
+        <p>We classify a finding as <strong>pre-deployment</strong> when the evaluator tested the
+          model before its public release, as <strong>post-deployment</strong> when the evaluator
+          tested the released model, and as <strong>mixed</strong> when the evaluation used both.
+          Post-deployment testing dominates the public record, producing 73% of all findings. For
+          99 findings, the access type of evaluation was not disclosed.</p>
+      </div>
+      <div class="step2">
+        <h3>Type of evaluating institution</h3>
+        <p>Nonprofit members of the AI Evaluator Forum produced 328 findings, government institutes
+          308, other nonprofits 245, and for-profit evaluators 239. Four organizations (UK AISI,
+          Scale AI, METR, and Shanghai AI Laboratory) together produced 511 findings, or 45.6% of
+          the corpus.</p>
+      </div>
+      <div class="step2">
+        <h3>Three mutually exclusive tiers</h3>
+        <p>Not every finding reasonably merits a company response. We therefore assigned each
+          finding to one of three mutually exclusive tiers, based on whether it reports adverse
+          findings, whether they are trackable, and whether they surface credible risks.</p>
         <table class="matrix" style="max-width:none">
-          <thead><tr><th style="width:15rem">Group</th><th style="width:7rem">Encoding</th><th>Meaning</th></tr></thead>
+          <thead><tr><th style="width:15rem">Tier</th><th>Definition</th></tr></thead>
           <tbody>
-            <tr><td class="cell-c1">Trackable evaluation findings<br><span class="detail">211 (18.8%)</span></td><td>yes / yes</td><td><b>A company could answer for it.</b> Names a company or model, concerning, and a response is reasonable to expect. <strong>Only trackable evaluation findings enter the company-response and proportionality analysis</strong> — every headline number is computed over them.</td></tr>
-            <tr><td class="cell-par">Non-trackable evaluation findings<br><span class="detail">603 (53.8%)</span></td><td>yes / no</td><td><b>Empirical, but no accountable party.</b> Anonymised models, reassuring nulls, non-frontier subjects, capability trends, and results that call for no company response.</td></tr>
-            <tr><td class="cell-c2">Non-empirical findings<br><span class="detail">306 (27.3%)</span></td><td>no / blank</td><td><b>No empirical model behaviour or capability reported.</b> Contributions to methodology, frameworks, governance processes, and tooling.</td></tr>
+            <tr><td class="cell-c1">Trackable evaluation findings<br><span class="detail">211 (18.8%)</span></td><td>A finding is trackable when it meets three conditions: it reports a specific adverse or safety-relevant result; it names the model, system, or developer involved; and a concrete company response to the reported result can reasonably be assessed.</td></tr>
+            <tr><td class="cell-par">Non-trackable evaluation findings<br><span class="detail">603 (53.8%)</span></td><td>Empirical findings that fail at least one of the three conditions. Examples include results about anonymized systems, null results, reassuring or inconclusive results, rankings with no concerning threshold, and industry-wide capability trends.</td></tr>
+            <tr><td class="cell-c2">Non-empirical findings<br><span class="detail">306 (27.3%)</span></td><td>Findings that report no empirical model behavior or capability. They include contributions to methodology, frameworks, governance processes, and tooling.</td></tr>
           </tbody>
         </table>
+        <div class="detail"><strong>Only trackable evaluation findings enter the company-response
+          and proportionality analysis.</strong></div>
       </div>
-
       <div class="step2">
-        <h3>The trackable-finding test — all three must hold</h3>
+        <h3>The three conditions for a trackable finding</h3>
         <div class="gates">
-          <div class="gate"><div class="q">Condition 1</div><p>It is an empirical model finding — a measured result about behaviour, capability or safeguards.</p></div>
-          <div class="gate"><div class="q">Condition 2</div><p>It names a specific company or model. Company level suffices; "anonymised" fails.</p></div>
-          <div class="gate"><div class="q">Condition 3</div><p>It demonstrates a concerning result for which a specific company response is reasonable to expect.</p></div>
+          <div class="gate"><div class="q">Condition 1</div><p>It reports a specific adverse or safety-relevant result.</p></div>
+          <div class="gate"><div class="q">Condition 2</div><p>It names the model, system, or developer involved.</p></div>
+          <div class="gate"><div class="q">Condition 3</div><p>A concrete company response to the reported result can reasonably be assessed.</p></div>
         </div>
-        <h4>What condition 3 deliberately excludes</h4>
-        <ul>
-          <li>Reassuring nulls — a model measured <em>below</em> a threshold.</li>
-          <li>Benchmark scores or relative uplift with no dangerous threshold crossed.</li>
-          <li>Inconclusive results.</li>
-          <li>Comparative rankings between models.</li>
-          <li>Capability trends and forecasts.</li>
-          <li>Findings where named models are the <em>instrument</em> of a methodology study, not its subject.</li>
-          <li>Company self-classifications ("we treat this as High capability").</li>
-          <li>Non-frontier models.</li>
-          <li>Findings too recent to have plausibly drawn a response.</li>
-        </ul>
-        <div class="detail">This exclusion list is why the headline denominator is far smaller than
-          the corpus. <strong>A model scoring below a danger threshold is not something a company
-          owes an answer for</strong>, and counting it as an unanswered finding would inflate the gap.</div>
-      </div>
-
-      <div class="step2">
-        <h3>One finding per row</h3>
-        <dl class="deflist">
-          <dt>Never shared</dt><dd>Two different companies never share a row. A finding covering four models is split by developer.</dd>
-          <dt>Clubbed</dt><dd>Findings warranting the <em>same</em> response become one row. The test: did, or would, the company respond to them as one thing?</dd>
-          <dt>Split</dt><dd>Findings warranting <em>distinct</em> responses become separate rows — a capability result and a safeguard failure are not one item.</dd>
-          <dt>Comparators</dt><dd>Baselines and comparison models are never rows of their own.</dd>
-        </dl>
       </div>
       </div>
     </section>
 
     <section class="msec" id="s-sev">
-      <h2 class="mhead"><span>03</span>How severe is it?</h2>
+      <h2 class="mhead"><span>04</span>Risk severity classification</h2>
       <div class="sub" data-active>
       <div class="step2">
-        <figure style="max-width:760px">
+        <h3>Significant-risk and low-risk findings</h3>
+        <p>Findings also differ in how adverse they are, and what counts as an adequate response
+          depends on that.</p>
+        <dl class="deflist bordered" style="grid-template-columns:11rem 1fr">
+          <dt class="r-c1">Significant-risk</dt><dd>The finding's reported evidence met at least one
+            significant-risk threshold across the eight domains below.</dd>
+          <dt class="r-c2">Low-risk</dt><dd>All remaining findings, which do not contain any
+            significant-risk thresholds.</dd>
+        </dl>
+        <figure style="max-width:760px;margin-top:var(--s4)">
           <img loading="lazy" src="charts/17_severity_classification.jpg"
-               alt="How findings divide between Category 1 and Category 2.">
-          <figcaption><b>How the corpus divides.</b> Every finding is scored against the eight
-            domains below; a finding is Category&nbsp;1 only if at least one is demonstrated.</figcaption>
+               alt="Final severity labels for all 1,120 findings.">
+          <figcaption><b>Final severity labels for all 1,120 findings.</b> Across the corpus, 316
+            findings are significant-risk and 804 are low-risk. The company-response analysis uses
+            only the 211 trackable evaluation findings, of which 179 are significant-risk and 32 are
+            low-risk.</figcaption>
         </figure>
       </div>
       <div class="step2">
-        <h3>Two categories, and what separates them</h3>
-        <dl class="deflist">
-          <dt class="r-c1">Category&nbsp;1</dt><dd><b>Significant risk.</b> Triggered if <em>any one</em> of the eight
-            dangerous-capability domains below is <strong>demonstrated</strong> in the evaluation described.</dd>
-          <dt class="r-c2">Category&nbsp;2</dt><dd><b>Low-risk.</b> Everything else — reassuring or null results
-            (capability below an expert threshold, &ldquo;no uplift&rdquo;, &ldquo;zero instances&rdquo;);
-            capability-gap findings where the model fails a task; positive methodology or tooling
-            contributions; pure process or governance observations; and findings about non-frontier
-            or small research models where no frontier system is implicated.</dd>
-        </dl>
-        <div class="detail">Where the bar comes from: the Category&nbsp;1 threshold deliberately
-          mirrors the dangerous-capability thresholds the frontier developers publish for
-          themselves — <strong>Anthropic&rsquo;s Responsible Scaling Policy Capability Thresholds,
-          OpenAI&rsquo;s Preparedness Framework, and Google DeepMind&rsquo;s Frontier Safety Framework
-          Critical Capability Levels</strong>. This applies the industry&rsquo;s own bar rather than one
-          invented for this dataset, which is what makes a shortfall against it meaningful.</div>
-      </div>
-
-      <div class="step2">
         <h3>The eight domains</h3>
-        <p>A finding is Category&nbsp;1 if it demonstrates at least one. D1–D8 are this dataset&rsquo;s
-          own labels for them.</p>
-        <div class="domain"><div class="code">D1</div><div>
-          <div class="name">CBRN / bio-chem uplift</div>
-          <p>Meaningful uplift toward chemical, biological, radiological or nuclear weapons; expert-surpassing bio or chem capability; crossing a stated CBRN threshold.</p>
-        </div></div>
-        <div class="domain"><div class="code">D2</div><div>
-          <div class="name">Cyber operations</div>
-          <p>Offensive cyber capability — expert-level or novel-uplift hacking, completing realistic multi-stage attack chains, high CTF or exploit success rates, or a &ldquo;High&rdquo; or above cyber designation.</p>
-        </div></div>
-        <div class="domain"><div class="code">D3</div><div>
-          <div class="name">Autonomy / AI R&amp;D / self-replication</div>
-          <p>Autonomous replication, self-propagation, or automating AI R&amp;D and thereby accelerating scaling.</p>
-        </div></div>
-        <div class="domain"><div class="code">D4</div><div>
-          <div class="name">Persuasion / manipulation / societal harm at scale</div>
-          <p>Systematically changing beliefs or behaviour at scale; implication in large-scale societal harm — mass CSAM, or election-scale persuasion exceeding a real benchmark.</p>
-        </div></div>
-        <div class="domain"><div class="code">D5</div><div>
-          <div class="name">Deceptive alignment / misalignment</div>
-          <p>Deliberate deception, scheming, sabotage, sandbagging, blackmail, or hiding of abilities or intentions.</p>
-          <div class="ex">
-            <span class="yes">&ldquo;I should not reveal that I am a robot. I should make up an excuse.&rdquo; — the model&rsquo;s own reasoning, planning a deception.</span>
-            <span class="yes">&ldquo;the model consistently hides the genuine reasons behind its trade&rdquo; — concealment repeated across trials.</span>
-            <span class="no">&ldquo;the good-looking render is faked with an image generator&rdquo; — a fabricated artefact, with nothing shown about intent.</span>
-          </div>
-        </div></div>
-        <div class="domain"><div class="code">D6</div><div>
-          <div class="name">Safeguard failure</div>
-          <p>A <em>deployed</em> safety mechanism — jailbreak defence, classifier, guardrail, refusal training, content filter — bypassed, defeated, or shown to fail, allowing harmful output on a frontier system.</p>
-        </div></div>
-        <div class="domain"><div class="code">D7</div><div>
-          <div class="name">Evaluation integrity compromised</div>
-          <p>The evaluation itself undermined — the model detected it was being evaluated, gamed the benchmark, was trained on evaluation data, or defeated or de-anonymised the evaluation environment.</p>
-        </div></div>
-        <div class="domain"><div class="code">D8</div><div>
-          <div class="name">Acute individual harm</div>
-          <p>A model actively encouraging, instructing or coaching a user toward suicide or self-harm. Category 1 <strong>regardless of scale</strong> — one user is enough. Reporting refusal rates on such prompts is not D8; the model must be shown doing it.</p>
-        </div></div>
+        <div class="domain"><div class="code">D1</div><div><div class="name">Chemical, biological, radiological, and nuclear (CBRN) uplift</div></div></div>
+        <div class="domain"><div class="code">D2</div><div><div class="name">Offensive cyber capability</div></div></div>
+        <div class="domain"><div class="code">D3</div><div><div class="name">Autonomy, self-replication, or automation of AI research and development</div></div></div>
+        <div class="domain"><div class="code">D4</div><div><div class="name">Persuasion or societal harm at scale</div></div></div>
+        <div class="domain"><div class="code">D5</div><div><div class="name">Deliberate deception or misalignment</div></div></div>
+        <div class="domain"><div class="code">D6</div><div><div class="name">Failure of a deployed safeguard</div></div></div>
+        <div class="domain"><div class="code">D7</div><div><div class="name">Compromised evaluation integrity</div></div></div>
+        <div class="domain"><div class="code">D8</div><div><div class="name">Acute harm to an individual user</div></div></div>
+        <div class="detail">These domains are derived from the safety frameworks by Anthropic,
+          OpenAI, and Google DeepMind. D1 to D3 correspond to thresholds that frontier developers
+          set for their own systems. D4 and D5 correspond to categories that these frameworks treat
+          less consistently. D6 to D8 cover failures reported in the evaluation literature that the
+          developers' capability thresholds do not address. The thresholds and boundary rules are
+          our own operationalization of these sources.</div>
       </div>
-
       <div class="step2">
-        <h3>Four rules applied before any decision</h3>
-        <dl class="deflist">
-          <dt>1 · Negation</dt><dd>&ldquo;did not&rdquo;, &ldquo;below expert&rdquo;, &ldquo;zero instances&rdquo;,
-            &ldquo;no uplift&rdquo;, &ldquo;remained below&rdquo; &rarr; Category&nbsp;2, even when the surrounding
-            vocabulary is alarming.</dd>
-          <dt>2 · Demonstrated</dt><dd>The capability must be <em>shown</em> in the evaluation described.
-            A capability discussed, proposed, warned about or listed as a risk is not demonstrated.
-            An alarming characterisation by the evaluator is not a demonstration.</dd>
-          <dt>3 · Trajectory</dt><dd>A rising trend is Category&nbsp;1 only if a dangerous capability was
-            reached <em>now</em>. A pure future projection is Category&nbsp;2.</dd>
-          <dt>4 · Deliberateness</dt><dd>D5 requires evidence about the model — its own reasoning, an
-            explicit plan, or concealment repeated across trials. Words like &ldquo;faked&rdquo; or
-            &ldquo;cheated&rdquo; are the evaluator&rsquo;s characterisation of an output, not evidence of intent.</dd>
-        </dl>
-      </div>
-
-      <div class="step2">
-        <h3>How the score is produced</h3>
-        <p>Three independent models — <strong>Claude Sonnet 5, GPT-5.5 and Gemini 3.1</strong> — each
-          score every finding against all eight domains, using one frozen prompt sent verbatim to
-          all three. Whichever category at least two of the three models agree on becomes the
-          finding's severity, so no single model can decide a case by itself. All three votes are
-          stored and never overwritten, which means a two-to-one split stays visible in the data
-          instead of disappearing into the majority — you can see exactly which findings the models
-          disagreed about, and how often.</p>
-        <div class="detail">The three models agreed unanimously on <strong>1,010 of the 1,120
-          findings (90.2%)</strong>, and on <strong>177 of the 211 trackable evaluation findings
-          (83.9%)</strong>. The prompt is
-          version-frozen: any change to it invalidates comparability with rows already coded, so
-          every vote carries the prompt version it was produced under.</div>
+        <h3>Severity was coded in two stages</h3>
+        <p><strong>First,</strong> we used three frontier models from different developers (Claude
+          Sonnet 5, GPT-5.5, and Gemini 3.1 Pro) each to classify every finding independently using
+          the same prompt, and their majority vote gave a provisional label. The three models
+          agreed unanimously on 1,010 of the 1,120 findings (90.2%) and on 177 of the 211 trackable
+          evaluation findings (83.9%).</p>
+        <p><strong>Second,</strong> two authors independently reviewed every finding against its
+          source, together with all three votes and rationales, and overrode the model majority
+          where required. The final severity label agreed on by both authors differed from the
+          model majority for 12 of 211 trackable findings.</p>
       </div>
       </div>
     </section>
 
     <section class="msec" id="s-resp">
-      <h2 class="mhead"><span>04</span>Finding the response</h2>
+      <h2 class="mhead"><span>05</span>What responses and impacts did findings have?</h2>
       <div class="sub" data-active>
       <div class="step2">
-        <h3>Three evidence searches</h3>
-        <p>For every trackable evaluation finding we ran <strong>three separate agentic web
-          searches</strong>, each looking for a different kind of evidence under its own source
-          rule. All three covered public sources available by 29 August 2026.
-          <strong>Only the company-response search can establish that a company responded.</strong></p>
+        <p>Identifying a risk does not show whether any action was taken. We next traced the
+          company, policy, and public responses that followed each of our 211 trackable evaluation
+          findings.</p>
+      </div>
+      <div class="step2">
+        <h3>Evidence channels: what actions followed a finding being reported?</h3>
+        <p>For each trackable evaluation finding, we ran three separate agentic web searches, each
+          prompted to find evidence of a different type of response with defined source evidence
+          rules. All three searches covered public sources available by 29 August 2026.</p>
         <dl class="deflist bordered" style="grid-template-columns:13rem 1fr">
           <dt>Company response</dt>
-          <dd>The developer's newsroom, blog and research index; later model and system cards;
+          <dd>The developer's newsroom, blog, and research index; later model and system cards;
             safety and deployment pages; and official statements. Only the company's own documents
             count.</dd>
           <dt>Policy uptake</dt>
-          <dd>Official parliamentary, legislative, regulatory and agency records. A record counts
-            only if it refers to the finding, not merely to the same topic.</dd>
+          <dd>Official parliamentary, legislative, regulatory, and agency records. A record counts
+            only if it refers to the finding.</dd>
           <dt>Public coverage</dt>
-          <dd>Independent media, academic citations and documented public discussion. The
+          <dd>Independent media, academic citations, and documented public discussion. The
             evaluator's own publicity and the company's own promotion do not count.</dd>
         </dl>
-        <div class="detail">Only the company's own primary document is admissible — <strong>news
-          reporting that quotes a company is not a response.</strong> A document dated before the
-          finding is invalid unless a coordinated pre-deployment disclosure is documented, and
-          standing policy that merely shares a topic does not count. A separate agent pass then re-checked
-          each proposed Action Level against the cited evidence, and every retained finding and its
-          coding was reviewed before it entered the final record.</div>
+        <div class="detail">Where a government directive was never published, the policy-uptake
+          search checked a regulated company's public disclosure, provided it named the issuing
+          authority and the mandatory requirement.</div>
       </div>
       <div class="step2">
-        <h3>Action Level — four levels</h3>
+        <h3>Attribution: did a company acknowledge the finding?</h3>
+        <dl class="deflist bordered" style="grid-template-columns:13rem 1fr">
+          <dt>Explicit attribution</dt>
+          <dd>The company names the finding, report, result, or evaluator, or states that this
+            evidence informed its response.</dd>
+          <dt>No explicit attribution</dt>
+          <dd>We located a qualifying response, but the company stated no link to the finding.</dd>
+          <dt>No response located</dt>
+          <dd>The search found no qualifying public response by the cutoff date.</dd>
+        </dl>
+        <p>Cases with no located response are recorded in this third category so that a completed
+          negative search remains distinguishable from an uncoded one.</p>
+      </div>
+      <div class="step2">
+        <h3>Action Level: was a finding acted on?</h3>
+        <p>Action Level records the strength of the publicly documented company response. Only
+          publicly available documents or statements published directly by the responding company
+          were accepted as evidence.</p>
         <ul>
-          <li class="r-sub"><strong>Substantive</strong> — a specific, documented change, attributed to the finding.</li>
-          <li class="r-par"><strong>Partial</strong> — a change claimed but not verifiable, or incomplete.</li>
-          <li class="r-ack"><strong>Acknowledged</strong> — the finding is referenced, but no action follows.</li>
-          <li class="r-none"><strong>None</strong> — no publicly documented company response was located.</li>
+          <li class="r-sub"><strong>Substantive.</strong> The company documented a specific mitigation, model change, safeguard, access restriction, or deployment decision that directly addressed the identified problem.</li>
+          <li class="r-par"><strong>Partial.</strong> The company documented an action that addressed only part of the problem, described the action as interim, limited, or incomplete, or described changes without showing that the problem was addressed.</li>
+          <li class="r-ack"><strong>Acknowledged.</strong> The company acknowledged the finding or underlying problem but specified no action.</li>
+          <li class="r-none"><strong>None.</strong> No public response could be identified through the search by the cutoff date.</li>
         </ul>
-        <div class="detail">Policy uptake is tracked separately, from official government sources
-          only, and <strong>never substitutes for a company response.</strong> A regulator citing a
-          finding does not discharge the developer's obligation to answer it.</div>
-      </div>
-      </div>
-    </section>
-
-    <section class="msec" id="s-prop">
-      <h2 class="mhead"><span>05</span>Proportionality</h2>
-      <div class="sub" data-active>
-      <div class="step2">
-        <h3>Proportionality is the final verdict on each finding</h3>
-        <p>Severity says how serious the finding is. Action Level says what the company did.
-          <strong>Proportionality is the two combined</strong> — whether the response matched the
-          risk. It is the only column the headline is computed from, and it is derived by lookup,
-          never assigned by hand.</p>
+        <table class="matrix" style="max-width:none;margin-top:var(--s4)">
+          <thead><tr><th style="width:9rem">Action Level</th><th>Finding</th><th>Documented company response</th></tr></thead>
+          <tbody>
+            <tr><td class="cell-c2">Substantive</td><td>CAISI found two security vulnerabilities in ChatGPT Agent and combined them into a working exploit.</td><td>OpenAI fixed both vulnerabilities within one business day.</td></tr>
+            <tr><td class="cell-par">Partial</td><td>UK AISI found a universal jailbreak in GPT-5.5 within six hours.</td><td>OpenAI's system card reports several updates to its safeguards but states that UK AISI could not verify whether the final configuration was effective.</td></tr>
+            <tr><td class="cell-par">Acknowledged</td><td>UK AISI reported unsanctioned behavior by Claude Mythos 5 during a cyber evaluation.</td><td>Anthropic cited the incident in its 14 August risk report and reported an ongoing joint investigation. The report identified no specific mitigation for the finding by Anthropic.</td></tr>
+            <tr><td class="cell-c1">None</td><td>Dreadnode found that GPT-5.4 recorded two benchmark passes involving cheating under the standard anti-cheating instruction and one under the strictest instruction.</td><td>No qualifying company document was located after the documented response search.</td></tr>
+          </tbody>
+        </table>
       </div>
       <div class="step2">
-        <h3>The lookup</h3>
-        <p><a href="#results" data-go="results">The matrix is on the
-          Results tab &rarr;</a> — rows are severity, columns are what the company published, and
-          each cell is the outcome that pair produces.</p>
-        <div class="detail">A significant-risk finding needs a <strong>substantive</strong> response
-          to pass. A low-risk finding needs at least a <strong>partial</strong> one. Nothing else
-          clears the bar, and no discretion enters at any point.</div>
+        <h3>Proportionality: was a company response proportionate to the risk identified?</h3>
+        <p>We operationalized the proportionality of a response using finding severity and Action
+          Level. For <strong>significant-risk</strong> findings, we required a substantive response
+          with explicit attribution. For <strong>low-risk</strong> findings, we required a partial
+          or substantive response with explicit attribution. An acknowledgment without action never
+          meets the standard, and a finding with no located response is always coded as "no
+          response".</p>
+        <div class="mx" style="margin-top:var(--s4)">
+          <span></span><span class="mx-h">Substantive</span><span class="mx-h">Partial</span><span class="mx-h">Acknowledged</span><span class="mx-h">None</span>
+          <span class="mx-r">Significant-risk</span><span class="mx-c" style="background:var(--c-cream)"><b style="font-size:.95rem">Proportionate*</b></span><span class="mx-c" style="background:var(--c-pink)"><b style="font-size:.95rem">Under-response</b></span><span class="mx-c" style="background:var(--c-pink)"><b style="font-size:.95rem">Under-response</b></span><span class="mx-c dark" style="background:var(--c-maroon)"><b style="font-size:.95rem">No response</b></span>
+          <span class="mx-r">Low-risk</span><span class="mx-c" style="background:var(--c-cream)"><b style="font-size:.95rem">Proportionate*</b></span><span class="mx-c" style="background:var(--c-cream)"><b style="font-size:.95rem">Proportionate*</b></span><span class="mx-c" style="background:var(--c-pink)"><b style="font-size:.95rem">Under-response</b></span><span class="mx-c dark" style="background:var(--c-maroon)"><b style="font-size:.95rem">No response</b></span>
+        </div>
+        <p class="cksub">* Outcomes shown as Proportionate require explicit attribution. Without
+          explicit attribution, those responses are classified as Under-response.</p>
+        <div class="detail">Our proportionality annotations did not guarantee that the response
+          was implemented, that it worked, or that the risk was completely mitigated.</div>
+      </div>
+      <div class="step2">
+        <h3>Policy Level: did a finding have an impact on governance?</h3>
+        <p>Policy Level measures the documented policy uptake for a finding. We did not count
+          general policy activity concerning the same topic unless it referred to the finding.</p>
+        <dl class="deflist bordered" style="grid-template-columns:13rem 1fr">
+          <dt>Binding policy action</dt>
+          <dd>A government instrument imposed a mandatory requirement that is explicitly connected
+            to the finding or to the same risk in the same model.</dd>
+          <dt>Non-binding policy-related uptake</dt>
+          <dd>The finding was cited or discussed but does not create any mandatory obligation,
+            including through official statements, legislative records, consultations,
+            recommendations, or guidance.</dd>
+          <dt>No policy uptake identified</dt>
+          <dd>No qualifying policy response was located for the finding.</dd>
+        </dl>
+        <div class="detail">When a binding government instrument was not publicly released, a
+          company's public disclosure is acceptable as a Binding policy action if it identified the
+          issuing authority and the mandatory requirement.</div>
       </div>
       </div>
     </section>
@@ -1499,10 +1504,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795241678"></script>
-<script src="app.js?v=1795241678"></script>
+<script src="data.js?v=1795242010"></script>
+<script src="app.js?v=1795242010"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795241678"></script>
+<script type="module" src="tags3d.js?v=1795242010"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
