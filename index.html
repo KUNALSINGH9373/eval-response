@@ -643,6 +643,18 @@ dialog.lightbox::backdrop { background:rgba(14,21,40,.55); -webkit-backdrop-filt
   min-width:4.6em; text-align:left; white-space:nowrap; }
 .rk-v small { font-weight:500; color:var(--ink-3); font-size:.92em; }
 .cktag { display:block; font-size:.8rem; margin-bottom:6px; }
+/* three-step explainer above the proportionality charts */
+.steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+@media (max-width:980px){ .steps{ grid-template-columns:1fr; } }
+.step { border:1px solid var(--rule); border-radius:16px; background:var(--paper); box-shadow:var(--shadow); padding:22px; }
+.step .num { display:block; font-size:.74rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:6px; }
+.step h3 { font-size:1.08rem; font-weight:650; line-height:1.3; margin:0 0 6px; }
+.kv { margin:0; }
+.kv dt { font-size:.88rem; font-weight:650; color:var(--ink); margin-top:12px; padding-top:12px;
+  border-top:1px solid var(--rule); display:flex; align-items:center; gap:8px; }
+.kv dt i { width:11px; height:11px; border:1px solid rgba(0,0,0,.55); display:inline-block; flex:none; }
+.kv dd { margin:3px 0 0; font-size:.88rem; line-height:1.5; color:var(--ink-2); }
 .ckread { font-size:.88rem; color:var(--ink-2); margin-top:16px; line-height:1.55; }
 .ckread b { color:var(--ink); }
 .figbtn { display:inline-block; margin-top:12px; padding:0; font-size:.86rem; }
@@ -998,185 +1010,100 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     </section>
 
     <!-- ── measurement ── -->
-    <section class="sec">
+    <section class="sec" id="sec-prop">
       <div class="sechead">
         <div><h2>Was the company response proportionate to the risk identified?</h2>
-          <p>Two questions are coded separately for every trackable finding, then combined by a
-            fixed rule.</p></div>
+          <p>Every trackable finding gets one verdict, built in three steps. Severity and the
+            company's response are coded separately, then combined by a fixed rule.</p></div>
         <a class="more" href="#method" data-go="method">Full methodology &rarr;</a>
       </div>
 
-      <div class="leadbox">
-        <p>Every trackable evaluation finding (one a named company could answer for) gets one
-          verdict: <strong>proportionality</strong>. It combines two separately coded variables:
-          the finding's <strong>severity</strong> (significant-risk or low-risk) and the company's
-          <strong>Action Level</strong> (Substantive, Partial, Acknowledged or None).</p>
-        <p>Each is coded on its own, so neither can colour the other. They are then combined by a
-          fixed rule: a <strong>significant-risk</strong> finding counts as proportionate
-          <strong>only if the response was Substantive</strong>; a <strong>low-risk</strong> finding
-          needs only a <strong>Partial</strong> one. In both cases the response must be
-          <strong>explicitly attributed</strong> to the finding. An acknowledgement without action
-          never meets the standard, and a finding with no located response is always an
-          accountability gap.</p>
-        <p class="detail">Proportionate does not mean the response was implemented, that it worked,
-          or that the risk was removed. It means only that a documented response met the bar the
-          finding's severity sets.</p>
-      </div>
-
-      <div class="g2" style="margin-top:var(--s4)">
-        <div class="inputbox">
-          <span class="num">Question 1 · Severity</span>
-          <h3 style="margin-bottom:var(--s2)">How serious is the finding?</h3>
-          <p>Each finding is scored against eight dangerous-capability
-            domains by three independent models (Claude Sonnet 5, GPT-5.5 and Gemini 3.1) using one
-            frozen prompt sent to all three. Each model returns its own category, and the one that
-            at least two of the three agree on is the majority vote, which is then human-reviewed
-            to give the finding's final severity. Using three models rather than one means a single
-            model's misreading cannot decide a case on its own.</p>
-          <dl class="deflist bordered" style="grid-template-columns:8.5rem 1fr">
-            <dt class="r-c1">Category&nbsp;1</dt><dd><b>Significant risk.</b> At least one of the eight domains is
-              <em>demonstrated</em>: CBRN uplift · cyber operations · autonomy and self-replication ·
-              persuasion at scale · deceptive alignment · safeguard failure · evaluation integrity ·
-              acute individual harm.</dd>
-            <dt class="r-c2">Category&nbsp;2</dt><dd><b>Low-risk.</b> Everything else: reassuring nulls,
-              capability gaps, methodology contributions, governance observations, non-frontier models.</dd>
+      <div class="steps">
+        <div class="step">
+          <span class="num">Step 1 · Severity</span>
+          <h3>How serious is the finding?</h3>
+          <dl class="kv">
+            <dt>Significant risk</dt><dd>The finding demonstrates a dangerous capability or a
+              safeguard failure in one of eight risk domains.</dd>
+            <dt>Low risk</dt><dd>Everything else: reassuring results, capability gaps and
+              findings below a danger threshold.</dd>
           </dl>
-          <div class="detail">The Category&nbsp;1 bar mirrors the thresholds
-            the developers publish for themselves: Anthropic's RSP Capability Thresholds, OpenAI's
-            Preparedness Framework, Google DeepMind's Frontier Safety Framework. <strong>A capability
-            must be shown, not discussed</strong>, and a model measured <em>below</em> a threshold is
-            never Category&nbsp;1.</div>
         </div>
-        <div class="inputbox">
-          <span class="num">Question 2 · Action level</span>
-          <h3 style="margin-bottom:var(--s2)">What did the company publish?</h3>
-          <p>Three separate searches are run for every finding: company response, policy
-            uptake and public coverage. Only the company's own primary document counts. News
-            reporting that quotes a company is not a response, and standing policy that shares a
-            topic does not count.</p>
-          <dl class="deflist bordered" style="grid-template-columns:8.5rem 1fr">
-            <dt class="r-sub">Substantive</dt><dd>A specific, documented change, attributed to the finding.</dd>
-            <dt class="r-par">Partial</dt><dd>A change claimed but not verifiable, or incomplete.</dd>
-            <dt class="r-ack">Acknowledged</dt><dd>The finding is referenced, but no action follows.</dd>
-            <dt class="r-none">None</dt><dd>No publicly documented company response was located.</dd>
+        <div class="step">
+          <span class="num">Step 2 · Company response</span>
+          <h3>What did the company publish?</h3>
+          <dl class="kv">
+            <dt>Substantive</dt><dd>A specific, documented change.</dd>
+            <dt>Partial</dt><dd>A change that is claimed but incomplete or not verifiable.</dd>
+            <dt>Acknowledged</dt><dd>The finding is referenced, but no action follows.</dd>
+            <dt>None</dt><dd>No public response was located.</dd>
           </dl>
-          <div class="detail">A separate agent pass then <strong>re-checked each proposed
-            Action Level against the cited evidence</strong>, and every retained finding and its
-            coding was reviewed before it entered the final record.</div>
+        </div>
+        <div class="step">
+          <span class="num">Step 3 · Verdict</span>
+          <h3>Did the response match the risk?</h3>
+          <dl class="kv">
+            <dt><i style="background:var(--c-cream)"></i>Proportionate</dt><dd>Substantive for a
+              significant-risk finding, Partial or better for a low-risk one, and explicitly
+              attributed to the finding.</dd>
+            <dt><i style="background:var(--c-pink)"></i>Under-response</dt><dd>The company
+              engaged, but did less than the risk called for.</dd>
+            <dt><i style="background:var(--c-maroon)"></i>No response</dt><dd>Nothing in the
+              public record.</dd>
+          </dl>
         </div>
       </div>
 
-      <h3 style="margin-top:var(--s6)">The proportionality matrix</h3>
-      <p style="max-width:70ch;margin-top:var(--s1)">The same company behaviour scores differently
-        depending on what it was answering.</p>
-      <div class="ckgrid" style="margin-top:var(--s4)">
+      <div class="ckgrid" style="margin-top:22px">
         <figure class="ck">
-          <h3>Severity &times; company response</h3>
-          <p class="cksub">Every trackable evaluation finding, placed by how serious it is and what
-            the company published. Hover a cell for its breakdown.</p>
+          <h3 id="mxT"></h3>
+          <p class="cksub">Trackable findings by severity (rows) and the strongest response the
+            company published (columns). Cell colour is the verdict most findings in it received.</p>
           <div class="cklegend" id="mxL"></div><div class="mx" id="mx"></div>
-          <button class="more figbtn" type="button" data-figsrc="charts/21_severity_x_action_heatmap.jpg"
-            data-figalt="Severity against what the company published.">View the paper figure &rarr;</button>
         </figure>
         <figure class="ck">
-          <h3>The same findings as verdicts</h3>
-          <p class="cksub">The matrix collapsed into the three outcomes, split by severity.</p>
+          <h3 id="vdT"></h3>
+          <p class="cksub">The same findings grouped into the three verdicts, as a share of each
+            severity level.</p>
           <div class="cklegend" id="vdL"></div><div class="rank" id="vd"></div>
-          <button class="more figbtn" type="button" data-figsrc="charts/10_proportionality_by_severity.jpg"
-            data-figalt="Proportionality outcomes split by severity.">View the paper figure &rarr;</button>
+          <p class="ckread">Proportionate means a documented response met the bar the finding's
+            severity sets. It does not mean the response worked or that the risk was removed.</p>
         </figure>
-      </div>
-
-      <div class="g2" style="margin-top:var(--s5)">
-        <div class="readcol">
-          <h4>How to read the matrix</h4>
-          <p><b>Rows are severity.</b> The upper row is <b class="w-c1">Category 1, significant risk</b>: the
-            finding demonstrated one of the eight dangerous-capability domains. The lower row is
-            <b class="w-c2">Category 2, low-risk</b>: real, verified findings that crossed no danger
-            threshold.</p>
-          <p><b>Columns are action level</b>, the strongest thing the company published, left to
-            right from <b class="w-ok">Substantive</b> (a specific documented change) through
-            <b class="w-par">Partial</b> (claimed but unverifiable) and
-            <b class="w-ack">Acknowledged</b> (referenced, nothing done) to
-            <b class="w-gap">None</b> (no documented response located).</p>
-          <p>Every finding sits in exactly one cell, and the number in it is how many share that
-            pair. <b>Cell colour is the outcome</b>, derived rather than assigned.</p>
-          <p><b>The Category 1 row is the one that matters.</b> Only its Substantive cell can be proportionate.
-            <b>The Category 2 row sets the comparison</b>: its bar is lower by design, so Partial is enough.
-            Partial is the single column where the two rows disagree.</p>
-        </div>
-        <div class="readcol">
-          <h4>The three verdicts</h4>
-          <dl class="deflist bordered" style="grid-template-columns:1fr">
-            <dt class="r-sub">Proportionate</dt>
-            <dd>The response met the bar the finding's severity sets. The loop closed in public.</dd>
-            <dt class="r-par">Under-response</dt>
-            <dd>The company engaged (referenced the finding, or claimed a change nobody can verify)
-              but did less than the risk called for.</dd>
-            <dt class="r-none">Accountability gap</dt>
-            <dd>No publicly documented company response was located. No public trace that the finding
-              was received, considered or acted on.</dd>
-          </dl>
-          <p style="margin-top:var(--s3)"><b>Under-response and accountability gap together are the
-            shortfall.</b></p>
-        </div>
       </div>
     </section>
 
-    <!-- ── corpus ── -->
-    <section class="sec">
+    <!-- ── the dataset ── -->
+    <section class="sec" id="sec-corpus">
       <div class="sechead">
-        <div><h2>The corpus</h2>
-          <p>The <span id="cTotal"></span> findings come from <span id="cInsts"></span> institutions
-            across four types. Detail rather than result: how the corpus splits by tier, when in a
-            model's life the evaluation happened, and who produced it.</p></div>
+        <div><h2>What the dataset contains</h2>
+          <p>The <span id="cTotal"></span> findings come from <span id="cInsts"></span> evaluators.
+            These four charts show how they split by scope, timing and source.</p></div>
         <a class="more" href="#data" data-go="data">Browse every finding &rarr;</a>
       </div>
-      <div class="rgrid four">
-        <button class="rcard" type="button" data-fig>
-          <span class="thumb"><img loading="lazy" src="charts/07_tier_distribution.jpg" alt="Corpus split by tier."></span>
-          <span class="rmeta"><span class="tag t-corpus">Scope</span> · <span id="kTier"></span></span>
-          <span class="rtitle">Only trackable evaluation findings are scored</span>
-          <span class="rdesc">The rest are real, source-verified findings that
-            fail one of the two gates: methodology, governance, or results with no named company to
-            answer for them. They stay in the dataset; excluding them from the headline while keeping
-            them is what makes the denominator defensible.</span>
-        </button>
-        <button class="rcard" type="button" data-fig>
-          <span class="thumb"><img loading="lazy" src="charts/03_findings_per_access_type.jpg" alt="Findings per access type."></span>
-          <span class="rmeta"><span class="tag t-corpus">Access</span> · all findings</span>
-          <span class="rtitle">Evaluation mainly happens after release</span>
-          <span class="rdesc">Pre-deployment access covers a
-            small share of the corpus, which is precisely what makes it a policy lever rather than a
-            description of how things already are.</span>
-        </button>
-        <button class="rcard" type="button" data-fig>
-          <span class="thumb"><img loading="lazy" src="charts/01_findings_per_institution.jpg" alt="Findings per institution, ranked."></span>
-          <span class="rmeta"><span class="tag t-corpus">Institutions</span> · <span id="kInst"></span></span>
-          <span class="rtitle">Output is concentrated</span>
-          <span class="rdesc">A small number of evaluators account for most
-            of the corpus, so institution-level rates rest on very uneven denominators.</span>
-        </button>
-        <button class="rcard" type="button" data-fig>
-          <span class="thumb"><img loading="lazy" src="charts/13_institution_type_tree.jpg" alt="Findings by institution type, branching into individual organisations."></span>
-          <span class="rmeta"><span class="tag t-corpus">Institution type</span> · 4 types</span>
-          <span class="rtitle">Four institution types</span>
-          <span class="rdesc">Nonprofit (AEF) 328, Government 308,
-            Nonprofit (independent) 245 and For-profit 239, each branching into the organisations
-            behind it.</span>
-        </button>
+      <div class="ckgrid">
+        <figure class="ck">
+          <h3 id="cpTierT"></h3>
+          <p class="cksub">All findings by group. Only trackable findings, where a named company
+            could answer, are scored for a response.</p>
+          <div class="rank" id="cpTier" style="margin-top:14px"></div>
+        </figure>
+        <figure class="ck">
+          <h3 id="cpAccT"></h3>
+          <p class="cksub">All findings by when in the model's life the evaluator had access.</p>
+          <div class="cklegend" id="cpAccL"></div><div class="rank" id="cpAcc"></div>
+        </figure>
+        <figure class="ck">
+          <h3 id="cpYearT"></h3>
+          <p class="cksub">All findings by the year the evaluation was published.</p>
+          <div class="cklegend" id="cpYearL"></div><div class="rank" id="cpYear"></div>
+        </figure>
+        <figure class="ck">
+          <h3 id="cpWhoT"></h3>
+          <p class="cksub">All findings by the kind of evaluator that produced them.</p>
+          <div class="cklegend" id="cpWhoL"></div><div class="rank" id="cpWho"></div>
+        </figure>
       </div>
-    </section>
-
-    <!-- ── insights ── -->
-    <section class="sec">
-      <div class="sechead">
-        <div><h2>What stands out in the numbers</h2>
-          <p>Each line below is computed directly from the dataset, with its denominator stated.
-            Several of these compare different populations, so the denominator is the part to read
-            carefully.</p></div>
-      </div>
-      <div id="insightList"></div>
+      <div id="insightList" style="display:none"></div>
     </section>
 
     <!-- ── go deeper ── -->
@@ -1584,10 +1511,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795239523"></script>
-<script src="app.js?v=1795239523"></script>
+<script src="data.js?v=1795239653"></script>
+<script src="app.js?v=1795239653"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795239523"></script>
+<script type="module" src="tags3d.js?v=1795239653"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -2063,9 +1990,46 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     $('mx').innerHTML = html;
     legend('mxL', [['Response matched the risk', COL.cream], ['Response too weak for the risk', COL.pink], ['No response found', COL.maroon]]);
     legend('vdL', OUT);
+    var c1 = T.filter(function (f) { return f.sev === 'C1'; }), c2 = T.filter(function (f) { return f.sev === 'C2'; });
+    set('mxT', n(c1, isNone) + ' of ' + c1.length + ' significant-risk findings drew no response; ' +
+      n(c1, function (f) { return f.action === 'Substantive'; }) + ' drew a substantive one');
+    set('vdT', Math.round(n(c1, short) / c1.length * 100) + '% of significant-risk and ' +
+      Math.round(n(c2, short) / c2.length * 100) + '% of low-risk findings fell short of a proportionate response');
     rank('vd', SEVS.map(function (sv) { var a = T.filter(function (f) { return f.sev === sv[0]; });
       return { plain: true, label: sv[1] + ' (n=' + a.length + ')', tip: sv[1] + ' · ' + a.length + ' findings', parts: outParts(a),
         note: Math.round(n(a, short) / a.length * 100) + '% <small>short</small>' }; }), OUT, true);
+  })();
+
+  /* ── what the dataset contains ── */
+  (function () {
+    var all = F.length, row = function (label, a, tip) { var p = splitParts(a);
+      return { plain: true, label: label, tip: (tip || label) + ' · ' + a.length + ' findings', parts: p,
+        note: a.length + ' <small>(' + pc1(a.length, all) + ')</small>' }; };
+    var tr = n(F, function (f) { return f.track === 'yes'; }),
+        nt = n(F, function (f) { return f.evalT === 'yes' && f.track !== 'yes'; }), ne = all - tr - nt;
+    set('cpTierT', tr + ' of ' + all.toLocaleString() + ' findings are trackable and scored for a company response');
+    rank('cpTier', [['Trackable findings', tr], ['Non-trackable findings', nt], ['Non-empirical findings', ne]]
+      .map(function (r) { return { plain: true, label: r[0], parts: [r[1]], note: r[1] + ' <small>(' + pc1(r[1], all) + ')</small>' }; }),
+      [['of ' + all.toLocaleString() + ' findings', COL.maroon]]);
+    $('cpTier').querySelectorAll('.rk-row').forEach(function (r, i) { var b = r.querySelector('.rk-bar i');
+      if (b) b.style.background = [COL.maroon, COL.pink, COL.cream][i]; });
+
+    var ACCS = [['Post-deployment', 'After release'], ['Pre-deployment', 'Before release'], ['Mixed', 'Before and after'], ['N/A', 'Not applicable']];
+    var accA = function (k) { return F.filter(function (f) { return f.access === k; }); };
+    set('cpAccT', pc1(accA('Post-deployment').length, all).replace(/\.\d/, '') + ' of findings come from evaluations run after the model was released');
+    legend('cpAccL', SPLIT);
+    rank('cpAcc', ACCS.map(function (k) { return row(k[1], accA(k[0]), k[0] + ' access'); }), SPLIT);
+
+    var ys = group(F, function (f) { return (f.date || '').slice(0, 4); }).sort(function (x, y) { return x.k < y.k ? -1 : 1; });
+    var last2 = ys.slice(-2), l2 = last2.reduce(function (t, d) { return t + d.a.length; }, 0);
+    set('cpYearT', pc1(l2, all).replace(/\.\d/, '') + ' of findings were published in ' + last2.map(function (d) { return d.k; }).join(' or '));
+    legend('cpYearL', SPLIT);
+    rank('cpYear', ys.map(function (d) { return row(d.k, d.a); }), SPLIT);
+
+    var govA = F.filter(function (f) { return f.scope === 'government-AISI'; }), tpA = F.filter(function (f) { return f.scope === 'third-party-evaluator'; });
+    set('cpWhoT', 'Government institutes produced ' + govA.length + ' findings; third-party evaluators produced ' + tpA.length);
+    legend('cpWhoL', SPLIT);
+    rank('cpWho', [row('Third-party evaluators', tpA), row('Government institutes', govA)], SPLIT);
   })();
 
   var through = 'Kunal Singh | Data through '  + mon(M.dateMax);
