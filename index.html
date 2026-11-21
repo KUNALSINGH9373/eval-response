@@ -114,7 +114,7 @@ details.foldout > .g3 { padding:0 var(--s4) var(--s4); }
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { -webkit-text-size-adjust:100%; }
-html,body { max-width:100%; overflow-x:hidden; }
+html,body { max-width:100%; overflow-x:clip; }
 body { background:var(--paper); color:var(--ink); font-size:16.5px; line-height:1.6;
   font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
 .wrap { max-width:1180px; margin-inline:auto; padding-inline:32px; }
@@ -729,7 +729,7 @@ figcaption { font-size:.95rem; max-width:92ch; }
 .dcard .btn { align-self:flex-start; margin-top:6px; }
 
 /* ── article pages (Problem, Methodology) ─────────────────────────────── */
-#p-problem .wrap, #p-method .wrap { max-width:800px !important; }
+#p-method .wrap { max-width:1180px !important; }
 #p-problem .wrap > div, #p-method .sub, .deflist, .domain, .detail { max-width:none; }
 #p-problem p, #p-method .sub p, #p-method .sub dd, #p-method .sub li { text-align:left; hyphens:manual;
   -webkit-hyphens:manual; }
@@ -744,6 +744,30 @@ figcaption { font-size:.95rem; max-width:92ch; }
 .sub ol, .sub ul, #p-problem ul { margin-left:1.3em; }
 .sub li::marker, #p-problem li::marker { color:var(--rule-2); }
 .sub p, .sub ol, .sub ul { max-width:none; }
+/* methodology: one scroll, section title pinned in a left column */
+.msec { display:grid; grid-template-columns:minmax(0,300px) minmax(0,1fr); gap:56px; padding:52px 0;
+  border-top:1px solid var(--rule); align-items:start; }
+.mhead { position:sticky; top:92px; margin:0; font-size:clamp(1.9rem,3vw,2.5rem); font-weight:750;
+  line-height:1.12; letter-spacing:-.02em; color:var(--ink); }
+.mhead span { display:block; font-size:.8rem; font-weight:700; letter-spacing:.1em; color:var(--accent);
+  margin-bottom:10px; }
+.msec .sub > .step2:first-child { padding-top:0; }
+#p-method .phead { max-width:820px; margin-inline:0; }
+@media (max-width:900px){ .msec{ grid-template-columns:1fr; gap:18px; padding:36px 0; } .mhead{ position:static; } }
+/* methodology colours: the same maroon / pink / cream the charts use, solid rather than washed */
+#p-method td.cell-c1, #p-method li.r-none, #p-method .deflist.bordered dt.r-c1, #p-method .deflist.bordered dt.r-none {
+  background:var(--c-maroon) !important; color:#fff !important; box-shadow:none; }
+#p-method td.cell-par, #p-method li.r-par, #p-method li.r-ack, #p-method .deflist.bordered dt.r-par, #p-method .deflist.bordered dt.r-ack {
+  background:var(--c-pink) !important; color:#111 !important; box-shadow:none; }
+#p-method td.cell-c2, #p-method li.r-sub, #p-method .deflist.bordered dt.r-c2, #p-method .deflist.bordered dt.r-sub {
+  background:var(--c-cream) !important; color:#111 !important; box-shadow:none; }
+#p-method .deflist.bordered dd { background:transparent !important; }
+#p-method li[class^="r-"] { border:1px solid rgba(0,0,0,.6); border-radius:0; padding:11px 16px; }
+#p-method li[class^="r-"] strong, #p-method td[class^="cell-"] .detail { color:inherit !important; }
+#p-method td[class^="cell-"] { border-right:1px solid var(--rule); }
+#p-method .detail { border-left-color:var(--accent); }
+#p-method .w-c1, #p-method .w-gap, #p-method .w-par, #p-method .w-ack { color:var(--c-maroon) !important; }
+#p-method .w-ok, #p-method .w-c2 { color:var(--ink) !important; }
 /* category-style sub tabs */
 .subtabs { justify-content:flex-start; gap:6px; border-bottom:1px solid var(--rule);
   border-top:1px solid var(--rule); padding:10px 0; margin-bottom:22px; position:sticky; top:80px;
@@ -1148,15 +1172,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       <div class="postmeta"></div>
     </div>
 
-    <div class="subtabs" role="tablist">
-      <button role="tab" data-sub="scope" aria-selected="true">What counts</button>
-      <button role="tab" data-sub="tier" aria-selected="false">Is a response owed?</button>
-      <button role="tab" data-sub="sev" aria-selected="false">Severity</button>
-      <button role="tab" data-sub="resp" aria-selected="false">Finding the response</button>
-      <button role="tab" data-sub="prop" aria-selected="false">Proportionality</button>
-    </div>
 
-    <div class="sub" id="s-scope" data-active>
+    <section class="msec" id="s-scope">
+      <h2 class="mhead"><span>01</span>What counts as a finding</h2>
+      <div class="sub" data-active>
       <div class="step2">
         <h3>Three tests, all of which must hold</h3>
         <ol>
@@ -1174,9 +1193,12 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <li><strong>Unverifiable sources.</strong> Every number and quote is checked against the document it cites.</li>
         </ul>
       </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="sub" id="s-tier">
+    <section class="msec" id="s-tier">
+      <h2 class="mhead"><span>02</span>Is a response owed?</h2>
+      <div class="sub" data-active>
       <div class="step2">
         <h3>Every finding sits in exactly one group</h3>
         <p>The group is not a label anyone writes. It is <strong>derived</strong> from two coded
@@ -1225,9 +1247,12 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           <dt>Comparators</dt><dd>Baselines and comparison models are never rows of their own.</dd>
         </dl>
       </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="sub" id="s-sev">
+    <section class="msec" id="s-sev">
+      <h2 class="mhead"><span>03</span>How severe is it?</h2>
+      <div class="sub" data-active>
       <div class="step2">
         <figure style="max-width:760px">
           <img loading="lazy" src="charts/17_severity_classification.jpg"
@@ -1330,9 +1355,12 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           version-frozen: any change to it invalidates comparability with rows already coded, so
           every vote carries the prompt version it was produced under.</div>
       </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="sub" id="s-resp">
+    <section class="msec" id="s-resp">
+      <h2 class="mhead"><span>04</span>Finding the response</h2>
+      <div class="sub" data-active>
       <div class="step2">
         <h3>Three evidence searches</h3>
         <p>For every trackable evaluation finding we ran <strong>three separate agentic web
@@ -1370,9 +1398,12 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           only, and <strong>never substitutes for a company response.</strong> A regulator citing a
           finding does not discharge the developer's obligation to answer it.</div>
       </div>
-    </div>
+      </div>
+    </section>
 
-    <div class="sub" id="s-prop">
+    <section class="msec" id="s-prop">
+      <h2 class="mhead"><span>05</span>Proportionality</h2>
+      <div class="sub" data-active>
       <div class="step2">
         <h3>Proportionality is the final verdict on each finding</h3>
         <p>Severity says how serious the finding is. Action Level says what the company did.
@@ -1389,9 +1420,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
           to pass. A low-risk finding needs at least a <strong>partial</strong> one. Nothing else
           clears the bar, and no discretion enters at any point.</div>
       </div>
-    </div>
-
       </div>
+    </section>
+
+  </div>
 </div>
 
 <!-- ══ DATA ═════════════════════════════════════════════════════════════ -->
@@ -1467,10 +1499,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795241474"></script>
-<script src="app.js?v=1795241474"></script>
+<script src="data.js?v=1795241678"></script>
+<script src="app.js?v=1795241678"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795241474"></script>
+<script type="module" src="tags3d.js?v=1795241678"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -1513,7 +1545,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
   window.addEventListener('hashchange', function () { show(location.hash.slice(1)); });
   show(location.hash.slice(1) || 'results');
 
-  var subs = ['scope','tier','sev','resp','prop'];
+  var subs = [];  /* methodology is one continuous page now */
   function showSub(name) {
     subs.forEach(function (k) {
       var el = document.getElementById('s-' + k);
