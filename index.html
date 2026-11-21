@@ -997,14 +997,9 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
       <figure class="frame">
         <div id="pipeline"><div id="sankeyMount" class="plot"></div></div>
         <figcaption style="margin-top:var(--s4)">
-          Read it left to right. Every finding in the dataset enters on the left, and each ribbon
-          carries findings from one stage to the next; the width of a ribbon is drawn in proportion
-          to how many findings it carries, so a ribbon twice as thick is carrying twice as many.
-          Most findings drop out before the end, and that is the point of the diagram: they are
-          methodology papers, governance commentary, or results with no named company that could
-          answer for them, so no response is owed and none is counted as missing. What survives to
-          the final column is the population every number on this page is computed over. Hover any
-          ribbon to see the exact count it represents.</figcaption>
+          Ribbon width shows the number of findings. Those that drop out are methodology,
+          governance or results with no named company, so no response is owed. Hover a ribbon
+          for its count.</figcaption>
         <details class="tblview" id="sankeyTable"><summary>Table view</summary></details>
       </figure>
     </section>
@@ -1511,10 +1506,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795239653"></script>
-<script src="app.js?v=1795239653"></script>
+<script src="data.js?v=1795240048"></script>
+<script src="app.js?v=1795240048"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795239653"></script>
+<script type="module" src="tags3d.js?v=1795240048"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
