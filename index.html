@@ -781,6 +781,28 @@ figcaption { font-size:.95rem; max-width:92ch; }
 .extbl td.o-un { background:var(--c-pink); color:#111; font-weight:650 !important; }
 .extbl td.o-pr { background:var(--c-cream); color:#111; font-weight:650 !important; }
 #p-results .mx-c em { letter-spacing:.01em; font-size:.6rem; }
+/* faint blue haze drifting along both edges of the page, behind all content */
+.haze { position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+.haze i { position:absolute; width:46vw; height:46vw; min-width:420px; min-height:420px; border-radius:50%;
+  background:radial-gradient(circle at center, color-mix(in srgb,var(--accent) 22%,transparent) 0%,
+    color-mix(in srgb,var(--accent) 9%,transparent) 38%, transparent 68%);
+  will-change:transform; animation:hz1 37s ease-in-out infinite alternate; }
+.haze i:nth-child(1) { left:-24vw; top:4vh; }
+.haze i:nth-child(2) { right:-26vw; top:-8vh; animation:hz2 43s ease-in-out infinite alternate; }
+.haze i:nth-child(3) { left:-28vw; top:52vh; animation:hz3 51s ease-in-out infinite alternate; }
+.haze i:nth-child(4) { right:-22vw; top:46vh; animation:hz4 29s ease-in-out infinite alternate; }
+.haze i:nth-child(5) { left:-18vw; top:26vh; width:30vw; height:30vw; animation:hz2 33s ease-in-out -11s infinite alternate-reverse; }
+.haze i:nth-child(6) { right:-18vw; top:22vh; width:32vw; height:32vw; animation:hz3 39s ease-in-out -17s infinite alternate-reverse; }
+@keyframes hz1 { 0%{transform:translate(0,0) scale(1)} 17%{transform:translate(7vw,-9vh) scale(1.12)} 34%{transform:translate(-3vw,11vh) scale(.92)}
+  52%{transform:translate(9vw,18vh) scale(1.2)} 71%{transform:translate(2vw,-14vh) scale(.88)} 86%{transform:translate(-5vw,6vh) scale(1.08)} 100%{transform:translate(6vw,22vh) scale(1)} }
+@keyframes hz2 { 0%{transform:translate(0,0) scale(1.05)} 21%{transform:translate(-8vw,12vh) scale(.9)} 39%{transform:translate(4vw,24vh) scale(1.18)}
+  58%{transform:translate(-10vw,5vh) scale(1)} 77%{transform:translate(-2vw,-10vh) scale(1.14)} 100%{transform:translate(-7vw,16vh) scale(.94)} }
+@keyframes hz3 { 0%{transform:translate(0,0) scale(.95)} 14%{transform:translate(6vw,-16vh) scale(1.1)} 33%{transform:translate(10vw,4vh) scale(1.22)}
+  49%{transform:translate(-2vw,-22vh) scale(.9)} 68%{transform:translate(8vw,-6vh) scale(1.06)} 84%{transform:translate(1vw,10vh) scale(1.16)} 100%{transform:translate(5vw,-12vh) scale(1)} }
+@keyframes hz4 { 0%{transform:translate(0,0) scale(1.1)} 24%{transform:translate(-6vw,-18vh) scale(.92)} 46%{transform:translate(3vw,-4vh) scale(1.2)}
+  63%{transform:translate(-9vw,10vh) scale(1)} 81%{transform:translate(-1vw,-24vh) scale(1.12)} 100%{transform:translate(-8vw,-8vh) scale(.9)} }
+@media (max-width:760px){ .haze i { opacity:.6; } }
+@media (prefers-reduced-motion:reduce){ .haze i { animation:none; } }
 /* category-style sub tabs */
 .subtabs { justify-content:flex-start; gap:6px; border-bottom:1px solid var(--rule);
   border-top:1px solid var(--rule); padding:10px 0; margin-bottom:22px; position:sticky; top:80px;
@@ -872,6 +894,7 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 </style>
 </head>
 <body>
+<div class="haze" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
 <header class="site">
   <div class="wrap">
@@ -1535,10 +1558,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795243283"></script>
-<script src="app.js?v=1795243283"></script>
+<script src="data.js?v=1795243409"></script>
+<script src="app.js?v=1795243409"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795243283"></script>
+<script type="module" src="tags3d.js?v=1795243409"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
