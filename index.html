@@ -655,6 +655,14 @@ dialog.lightbox::backdrop { background:rgba(14,21,40,.55); -webkit-backdrop-filt
   border-top:1px solid var(--rule); display:flex; align-items:center; gap:8px; }
 .kv dt i { width:11px; height:11px; border:1px solid rgba(0,0,0,.55); display:inline-block; flex:none; }
 .kv dd { margin:3px 0 0; font-size:.88rem; line-height:1.5; color:var(--ink-2); }
+.ck > .num { display:block; font-size:.74rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:8px; }
+.step h3 i { width:12px; height:12px; border:1px solid rgba(0,0,0,.55); display:inline-block; margin-right:8px; }
+.step p { margin:0; font-size:.9rem; line-height:1.5; color:var(--ink-2); }
+.ckgrid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.ckgrid.three .rk-row { grid-template-columns:minmax(0,104px) minmax(0,1fr) auto; }
+.ckgrid.three .rk-v small { display:none; }
+@media (max-width:1100px){ .ckgrid.three{ grid-template-columns:1fr; } }
 .ckread { font-size:.88rem; color:var(--ink-2); margin-top:16px; line-height:1.55; }
 .ckread b { color:var(--ink); }
 .figbtn { display:inline-block; margin-top:12px; padding:0; font-size:.86rem; }
@@ -1005,55 +1013,72 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     </section>
 
     <!-- ── measurement ── -->
+    <section class="sec" id="sec-method">
+      <div class="sechead">
+        <div><h2>How each finding was classified</h2>
+          <p>Four coding steps sit between a published finding and its verdict. Each chart shows
+            one step and what it produced.</p></div>
+        <a class="more" href="#method" data-go="method">Full methodology &rarr;</a>
+      </div>
+      <div class="ckgrid">
+        <figure class="ck">
+          <span class="num">Step 1 · Classification</span>
+          <h3 id="cpTierT"></h3>
+          <p class="cksub">A finding is trackable when it reports a measured result, names a
+            company or model, and calls for a response. Only trackable findings are scored.</p>
+          <div class="rank" id="cpTier" style="margin-top:14px"></div>
+        </figure>
+        <figure class="ck">
+          <span class="num">Step 2 · Severity</span>
+          <h3 id="sevT"></h3>
+          <p class="cksub">Three models score each finding against eight risk domains, and the
+            majority vote is human-reviewed. Significant risk means a dangerous capability or a
+            safeguard failure was demonstrated.</p>
+          <div class="cklegend" id="sevL"></div><div class="rank" id="sevC"></div>
+        </figure>
+        <figure class="ck">
+          <span class="num">Step 3 · Response channels</span>
+          <h3 id="chT"></h3>
+          <p class="cksub">Three searches are run for every trackable finding. Only the company's
+            own documents count as a company response.</p>
+          <div class="rank" id="chC" style="margin-top:14px"></div>
+        </figure>
+        <figure class="ck">
+          <span class="num">Step 4 · Action level</span>
+          <h3 id="actT"></h3>
+          <p class="cksub">The strongest thing the company published: a specific documented change
+            (Substantive), a claimed but unverifiable one (Partial), a reference with no action
+            (Acknowledged), or nothing (None).</p>
+          <div class="rank" id="actC" style="margin-top:14px"></div>
+        </figure>
+      </div>
+    </section>
+
     <section class="sec" id="sec-prop">
       <div class="sechead">
         <div><h2>Was the company response proportionate to the risk identified?</h2>
-          <p>Every trackable finding gets one verdict, built in three steps. Severity and the
-            company's response are coded separately, then combined by a fixed rule.</p></div>
-        <a class="more" href="#method" data-go="method">Full methodology &rarr;</a>
+          <p>The verdict combines severity and action level by a fixed rule.</p></div>
       </div>
-
       <div class="steps">
         <div class="step">
-          <span class="num">Step 1 · Severity</span>
-          <h3>How serious is the finding?</h3>
-          <dl class="kv">
-            <dt>Significant risk</dt><dd>The finding demonstrates a dangerous capability or a
-              safeguard failure in one of eight risk domains.</dd>
-            <dt>Low risk</dt><dd>Everything else: reassuring results, capability gaps and
-              findings below a danger threshold.</dd>
-          </dl>
+          <h3><i style="background:var(--c-cream)"></i>Proportionate</h3>
+          <p>Substantive for a significant-risk finding, Partial or better for a low-risk one,
+            and explicitly attributed to the finding.</p>
         </div>
         <div class="step">
-          <span class="num">Step 2 · Company response</span>
-          <h3>What did the company publish?</h3>
-          <dl class="kv">
-            <dt>Substantive</dt><dd>A specific, documented change.</dd>
-            <dt>Partial</dt><dd>A change that is claimed but incomplete or not verifiable.</dd>
-            <dt>Acknowledged</dt><dd>The finding is referenced, but no action follows.</dd>
-            <dt>None</dt><dd>No public response was located.</dd>
-          </dl>
+          <h3><i style="background:var(--c-pink)"></i>Under-response</h3>
+          <p>The company engaged, but did less than the risk called for.</p>
         </div>
         <div class="step">
-          <span class="num">Step 3 · Verdict</span>
-          <h3>Did the response match the risk?</h3>
-          <dl class="kv">
-            <dt><i style="background:var(--c-cream)"></i>Proportionate</dt><dd>Substantive for a
-              significant-risk finding, Partial or better for a low-risk one, and explicitly
-              attributed to the finding.</dd>
-            <dt><i style="background:var(--c-pink)"></i>Under-response</dt><dd>The company
-              engaged, but did less than the risk called for.</dd>
-            <dt><i style="background:var(--c-maroon)"></i>No response</dt><dd>Nothing in the
-              public record.</dd>
-          </dl>
+          <h3><i style="background:var(--c-maroon)"></i>No response</h3>
+          <p>Nothing was located in the public record.</p>
         </div>
       </div>
-
       <div class="ckgrid" style="margin-top:22px">
         <figure class="ck">
           <h3 id="mxT"></h3>
-          <p class="cksub">Trackable findings by severity (rows) and the strongest response the
-            company published (columns). Cell colour is the verdict most findings in it received.</p>
+          <p class="cksub">Trackable findings by severity (rows) and action level (columns). Cell
+            colour is the verdict most findings in it received.</p>
           <div class="cklegend" id="mxL"></div><div class="mx" id="mx"></div>
         </figure>
         <figure class="ck">
@@ -1071,20 +1096,13 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     <section class="sec" id="sec-corpus">
       <div class="sechead">
         <div><h2>What the dataset contains</h2>
-          <p>The <span id="cTotal"></span> findings come from <span id="cInsts"></span> evaluators.
-            These four charts show how they split by scope, timing and source.</p></div>
+          <p>The <span id="cTotal"></span> findings come from <span id="cInsts"></span> evaluators.</p></div>
         <a class="more" href="#data" data-go="data">Browse every finding &rarr;</a>
       </div>
-      <div class="ckgrid">
-        <figure class="ck">
-          <h3 id="cpTierT"></h3>
-          <p class="cksub">All findings by group. Only trackable findings, where a named company
-            could answer, are scored for a response.</p>
-          <div class="rank" id="cpTier" style="margin-top:14px"></div>
-        </figure>
+      <div class="ckgrid three">
         <figure class="ck">
           <h3 id="cpAccT"></h3>
-          <p class="cksub">All findings by when in the model's life the evaluator had access.</p>
+          <p class="cksub">All findings by when the evaluator had access to the model.</p>
           <div class="cklegend" id="cpAccL"></div><div class="rank" id="cpAcc"></div>
         </figure>
         <figure class="ck">
@@ -1506,10 +1524,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795240048"></script>
-<script src="app.js?v=1795240048"></script>
+<script src="data.js?v=1795240630"></script>
+<script src="app.js?v=1795240630"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795240048"></script>
+<script type="module" src="tags3d.js?v=1795240630"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
@@ -2009,22 +2027,41 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
     $('cpTier').querySelectorAll('.rk-row').forEach(function (r, i) { var b = r.querySelector('.rk-bar i');
       if (b) b.style.background = [COL.maroon, COL.pink, COL.cream][i]; });
 
+    var one = function (id, rows, den, segName, cols) {
+      rank(id, rows.map(function (r) { return { plain: true, label: r[0], parts: [r[1]], note: r[1] + ' <small>(' + pc1(r[1], den) + ')</small>' }; }),
+        [[segName, COL.maroon]]);
+      if (cols) $(id).querySelectorAll('.rk-row').forEach(function (r, i) { var b = r.querySelector('.rk-bar i'); if (b) b.style.background = cols[i]; }); };
+    var sevA = function (k) { return F.filter(function (f) { return f.sev === k; }); };
+    set('sevT', sevA('C1').length + ' of ' + all.toLocaleString() + ' findings are significant-risk, and ' +
+      n(sevA('C1'), function (f) { return f.track === 'yes'; }) + ' of those are trackable');
+    legend('sevL', SPLIT);
+    rank('sevC', [row('Significant risk', sevA('C1')), row('Low risk', sevA('C2'))], SPLIT);
+    var co = n(T, function (f) { return !isNone(f); }), po = n(T, function (f) { return /uptake$|action$/.test(f.pol) && !/^No /.test(f.pol); }),
+        pu = n(T, function (f) { return !!f.cVerb; });
+    set('chT', 'A company response was located for ' + co + ' of ' + T.length + ' trackable findings');
+    one('chC', [['Company response located', co], ['Cited in an official policy record', po], ['Public coverage located', pu]],
+      T.length, 'of ' + T.length + ' trackable findings');
+    var actN = function (k) { return n(T, function (f) { return k === 'None' ? isNone(f) : f.action === k; }); };
+    set('actT', actN('Substantive') + ' of ' + T.length + ' trackable findings drew a substantive response; ' + actN('None') + ' drew none');
+    one('actC', ['Substantive', 'Partial', 'Acknowledged', 'None'].map(function (k) { return [k, actN(k)]; }),
+      T.length, 'of ' + T.length + ' trackable findings', [COL.cream, COL.pink, COL.pink, COL.maroon]);
+
     var ACCS = [['Post-deployment', 'After release'], ['Pre-deployment', 'Before release'], ['Mixed', 'Before and after'], ['N/A', 'Not applicable']];
     var accA = function (k) { return F.filter(function (f) { return f.access === k; }); };
-    set('cpAccT', pc1(accA('Post-deployment').length, all).replace(/\.\d/, '') + ' of findings come from evaluations run after the model was released');
+    set('cpAccT', pct(accA('Post-deployment').length, all) + ' of findings come from evaluations run after release');
     legend('cpAccL', SPLIT);
     rank('cpAcc', ACCS.map(function (k) { return row(k[1], accA(k[0]), k[0] + ' access'); }), SPLIT);
 
     var ys = group(F, function (f) { return (f.date || '').slice(0, 4); }).sort(function (x, y) { return x.k < y.k ? -1 : 1; });
     var last2 = ys.slice(-2), l2 = last2.reduce(function (t, d) { return t + d.a.length; }, 0);
-    set('cpYearT', pc1(l2, all).replace(/\.\d/, '') + ' of findings were published in ' + last2.map(function (d) { return d.k; }).join(' or '));
+    set('cpYearT', pct(l2, all) + ' of findings were published in ' + last2.map(function (d) { return d.k; }).join(' or '));
     legend('cpYearL', SPLIT);
     rank('cpYear', ys.map(function (d) { return row(d.k, d.a); }), SPLIT);
 
     var govA = F.filter(function (f) { return f.scope === 'government-AISI'; }), tpA = F.filter(function (f) { return f.scope === 'third-party-evaluator'; });
-    set('cpWhoT', 'Government institutes produced ' + govA.length + ' findings; third-party evaluators produced ' + tpA.length);
+    set('cpWhoT', 'Third-party evaluators produced ' + pct(tpA.length, all) + ' of findings');
     legend('cpWhoL', SPLIT);
-    rank('cpWho', [row('Third-party evaluators', tpA), row('Government institutes', govA)], SPLIT);
+    rank('cpWho', [row('Third-party', tpA, 'Third-party evaluators'), row('Government', govA, 'Government institutes')], SPLIT);
   })();
 
   var through = 'Kunal Singh | Data through '  + mon(M.dateMax);
