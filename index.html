@@ -496,7 +496,7 @@ header.site .wrap { height:56px; gap:20px; padding-inline:20px; border-radius:va
 .panel { padding-block:56px 96px; }
 #p-results { padding-top:0; }
 .hero { margin-top:-70px; padding:150px 0 64px;
-  background:linear-gradient(180deg,var(--hero-a) 0%,var(--hero-b) 42%,var(--hero-c) 100%); }
+  background:linear-gradient(180deg,var(--hero-a) 0%,color-mix(in srgb,var(--hero-b) 70%,transparent) 42%,transparent 100%); }
 .hero .wrap { display:grid; grid-template-columns:minmax(0,1.32fr) minmax(330px,.78fr);
   gap:48px; align-items:center; }
 @media (max-width:940px){ .hero{ padding-top:170px; }
@@ -1558,10 +1558,10 @@ footer.site a:hover, footer.site button.flink:hover { color:#fff; text-decoratio
 <div id="tooltip" role="status" aria-live="polite"></div>
 <button id="viewGapBtn" type="button" hidden></button>
 
-<script src="data.js?v=1795243409"></script>
-<script src="app.js?v=1795243409"></script>
+<script src="data.js?v=1795244268"></script>
+<script src="app.js?v=1795244268"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
-<script type="module" src="tags3d.js?v=1795243409"></script>
+<script type="module" src="tags3d.js?v=1795244268"></script>
 <script>
 /* Tabs. A chart inside a hidden panel measures clientWidth 0, so a resize event
    is dispatched on reveal — app.js debounces that into a full re-render. */
